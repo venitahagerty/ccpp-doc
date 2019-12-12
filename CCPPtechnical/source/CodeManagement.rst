@@ -301,7 +301,7 @@ This should point to your fork as origin and the repository you cloned as upstre
 .. code-block:: console
 
    origin	      https://github.com/YOUR_GITHUB_USER/ccpp-physics (fetch)
-   origin	      https://github.com/YOUR_GIRHUB_USER/ccpp-physics (push)
+   origin	      https://github.com/YOUR_GITHUB_USER/ccpp-physics (push)
    upstream   https://github.com/NCAR/ccpp-physics (fetch)
    upstream   https://github.com/NCAR/ccpp-physics (push)
 
