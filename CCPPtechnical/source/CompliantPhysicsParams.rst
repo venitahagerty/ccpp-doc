@@ -110,7 +110,7 @@ More details are found below:
 Metadata Rules
 ==============
 * Metadata files (``.meta``) are in a relaxed config file format and contain metadata for one or more CCPP entry point schemes.
-  There should be one .meta file for each ``.f`` or .``F90`` file.
+  There should be one ``.meta`` file for each ``.f`` or .``F90`` file.
 
 * For each CCPP compliant scheme, the ``.meta`` file should have this set of lines
 
@@ -171,7 +171,7 @@ Metadata Rules
 .. _meta_template:
 .. literalinclude:: ./_static/scheme_template.meta
    :language: fortran
-   :lines: 51-80
+   :lines: 51-81
 
 *Listing 2.2: Fortran template for a metadata file accompanying a CCPP-compliant scheme.*
 

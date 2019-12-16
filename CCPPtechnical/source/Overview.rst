@@ -5,14 +5,14 @@ CCPP Overview
 *************************
 
 .. note:: The information in this document is updated periodically with changes to the CCPP and GMTB
-   SCM gmtb/develop branch. To obtain and build the latest available Technical Documentation from
+   SCM dtc/develop branch. To obtain and build the latest available Technical Documentation from
    this branch of the ccpp-doc code repository:
 
     .. code-block:: console
 
        git clone https://github.com/NCAR/ccpp-doc
        cd ccpp-doc
-       git checkout gmtb/develop
+       git checkout dtc/develop
        cd CCPPtechnical   
        make html
        make latexpdf
@@ -111,6 +111,8 @@ Generation Global Prediction System (NGGPS) Program Office to determine which sc
 and suites to be included and supported. The governance of the CCPP-Framework is jointly
 undertaken by NOAA and NCAR (see more information at https://github.com/NCAR/ccpp-framework/wiki
 and https://dtcenter.org/gmtb/users/ccpp). Please direct all inquiries to gmtb-help@ucar.edu. 
+
+TODO:  update this table
 
 .. _scheme_suite_table:
 

@@ -10,7 +10,7 @@ This document contains documentation for the Common Community Physics Package (C
 * CCPP-compliant parameterizations
 * adding a new scheme/suite
 * host-side coding
-* fundamentals of obtaining, pre-building, building and running the CCPP with NEMSfv3gfs
+* fundamentals of obtaining, pre-building, building and running the CCPP with the ufs-weather-model
 * CCPP code management and governance
 
 For the latest version of the released code, please visit the `GMTB Website <http://www.dtcenter.org/gmtb/users/ccpp>`_
