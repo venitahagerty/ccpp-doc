@@ -98,12 +98,16 @@ industry-standard code management practices, and are freely distributed through 
 The first public release of the CCPP took place in April 2018 and included all the
 parameterizations of the operational GFS v14, along with the ability to connect to the
 SCM. The second public release of the CCPP took place in August 2018 and additionally
-included the physics suite tested for the implementation of GFS v15. Since then, the
-GFS v14 suite has been retired and additional parameterizations have been made
-CCPP-compliant in order to encompass the physics suites that are under consideration
-for GFS v16. The suites that are currently supported in the CCPP can be found in
-:numref:`Table %s <scheme_suite_table>`. In addition to the schemes listed, more
-schemes are under consideration for inclusion into the CCPP in the future. 
+included the physics suite tested for the implementation of GFS v15. The third public release of
+the CCPP, in June 2019, had four suites: GFS v15 and three developmental suites considered for 
+use in GFS v16 (GFS_v15plus with an alternate PBL scheme, csawmg with alternate convection and
+microphysics schemes, and GFS_v0 with alternate convection, microphysics, PBL, and land surface schemes).
+In the current CCPP v4 release, an updated version of GFS  v15 is available (GFSv15p2) along with three 
+developmental suites: the current target for the GFS v16 implementation (GFSv16beta), an updated version
+of the NOAA Global Systems Division (GSD) suite (GSDv1), and the csawmg suite
+(see :numref:`Table %s <scheme_suite_table>`). In addition to the schemes listed, more schemes are under
+consideration for inclusion into the CCPP in the future. It should be noted that the public release of
+the UFS Medium-Range Weather Application v1 only supports the use of the GFSv15p2 and GFSv16beta suites.
 
 The CCPP is governed by the groups that contribute to its development. The governance
 of the CCPP-Physics is currently led by NOAA, and the GMTB works with EMC and the Next
