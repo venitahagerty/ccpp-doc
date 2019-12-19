@@ -234,7 +234,7 @@ Data Structure to Transfer Variables between Dynamics and Physics
 
 The roles of ``cdata`` structure in dealing with data exchange are not the same between the dynamic and the static builds of the CCPP. For the dynamic build, the ``cdata`` structure handles the data exchange between the host model and the physics schemes. ``cdata`` is a DDT containing a list of pointers to variables and their metadata and is persistent in memory. 
 
-For both the dynamic and static builds, the ``cdata`` structure is used for holding five variables that must always be available to the physics schemes. These variables are listed in a metadata table in ``ccpp/framework/src/ccpp_types.F90`` (:ref:`Listing 6.3 <MandatoryVariables>`). 
+For both the dynamic and static builds, the ``cdata`` structure is used for holding five variables that must always be available to the physics schemes. These variables are listed in a metadata table in ``ccpp/framework/src/ccpp_types.meta`` (:ref:`Listing 6.3 <MandatoryVariables>`). 
 
 
 * Error flag for handling in CCPP (``errmsg``).
@@ -247,23 +247,49 @@ For both the dynamic and static builds, the ``cdata`` structure is used for hold
 
 .. code-block:: fortran
 
- !! | local_name                        | standard_name             | long_name                                             | units   | rank | type      |   kind   | intent | optional |
- !! |-----------------------------------|-------------------------- |-------------------------------------------------------|---------|------|-----------|----------|--------|----------|
- !! | cdata%errflg                      | ccpp_error_flag           | error flag for error handling in CCPP                 | flag    |    0 | integer   |          | none   | F        |
- !! | cdata%errmsg                      | ccpp_error_message        | error message for error handling in CCPP              | none    |    0 | character | len=512  | none   | F        |
- !! | cdata%loop_cnt                    | ccpp_loop_counter         | loop counter for subcycling loops in CCPP             | index   |    0 | integer   |          | none   | F        |
- !! | cdata%blk_no                      | ccpp_block_number         | number of block for explicit data blocking in CCPP    | index   |    0 | integer   |          | none   | F        |
- !! | cdata%thrd_no                     | ccpp_thread_number        | number of thread for threading in CCPP                | index   |    0 | integer   |          | none   | F        |
- !!
+  [ccpp-arg-table]
+    name = ccpp_t
+    type = scheme
+  [errflg]
+    standard_name = ccpp_error_flag
+    long_name = error flag for error handling in CCPP
+    units = flag
+    dimensions = ()
+    type = integer
+  [errmsg]
+    standard_name = ccpp_error_message
+    long_name = error message for error handling in CCPP
+    units = none
+    dimensions = ()
+    type = character
+    kind = len=512
+  [loop_cnt]
+    standard_name = ccpp_loop_counter
+    long_name = loop counter for subcycling loops in CCPP
+    units = index
+    dimensions = ()
+    type = integer
+  [blk_no]
+    standard_name = ccpp_block_number
+    long_name = number of block for explicit data blocking in CCPP
+    units = index
+    dimensions = ()
+    type = integer
+  [thrd_no]
+    standard_name = ccpp_thread_number
+    long_name = number of thread for threading in CCPP
+    units = index
+    dimensions = ()
+    type = integer
 
-*Listing 6.3: Mandatory variables provided by the CCPP-Framework from* ``ccpp/framework/src/ccpp_types.F90`` *.
+*Listing 6.3: Mandatory variables provided by the CCPP-Framework from* ``ccpp/framework/src/ccpp_types.meta`` *.
 These variables must not be defined by the host model.*
 
 Two of the variables are mandatory and must be passed to every physics scheme: ``errmsg`` and ``errflg``. The variables ``loop_cnt``, ``blk_no``, and ``thrd_no`` can be passed to the schemes if required, but are not mandatory.  For the static build of the CCPP, the ``cdata`` structure is only used to hold these five variables, since the host model variables are directly passed to the physics without the need for an intermediate data structure.
 
 Note that ``cdata`` is not restricted to being a scalar but can be a multidimensional array, depending on the needs of the host model. For example, a model that uses a one-dimensional array of blocks for better cache-reuse may require ``cdata`` to be a one-dimensional array of the same size. Another example of a multi-dimensional array of ``cdata`` is in the SCM, which uses a one-dimensional cdata array for N independent columns. 
 
-Due to a restriction in the Fortran language, there are no standard pointers that are generic pointers, such as the C language allows. The CCPP system therefore has an underlying set of pointers in the C language that are used to point to the original data within the host application cap. The user does not see this C data structure, but deals only with the public face of the Fortran ``cdata`` DDT. The type ``ccpp_t`` is defined in ``ccpp/framework/src/ccpp_types.F90``.
+Due to a restriction in the Fortran language, there are no standard pointers that are generic pointers, such as the C language allows. The CCPP system therefore has an underlying set of pointers in the C language that are used to point to the original data within the host application cap. The user does not see this C data structure, but deals only with the public face of the Fortran ``cdata`` DDT. The type ``ccpp_t`` is defined in ``ccpp/framework/src/ccpp_types.meta`` and declared in ``ccpp/framework/src/ccpp_types.F90``.
 
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Adding and Retrieving Information from cdata (dynamic build option)
