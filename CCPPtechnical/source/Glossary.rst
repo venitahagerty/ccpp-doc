@@ -137,6 +137,10 @@ Glossary
       The atmospheric model component of the UFS. Its fundamental parts are the dynamical
       core and the physics
 
+   UFS Weather Model
+      Global meduim-range, weather-prediction model previously known as NEMSfv3gfs or FV3GFS
+      used to create forecasts.
+
    VLab
       Virtual Laboratory - a service and information technology framework, that enables
       NOAA employees and their partners to share ideas, collaborate, engage in software
