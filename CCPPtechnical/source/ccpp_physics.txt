@@ -2,5 +2,4 @@
 │   ├── docs                # Scientific documentation (doxygen)
 │   │   ├── img             # Figures for doxygen
 │   │   └── pdftxt          # Text files for documentation
-└── stochastic_physics      # Source code for stochastic physics
 

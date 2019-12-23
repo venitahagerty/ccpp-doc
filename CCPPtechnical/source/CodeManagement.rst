@@ -8,49 +8,63 @@ CCPP Code Management
 Organization of the Code
 ================================
 
-This chapter describes the organization of the code, provides instruction on the GitHub workflow and the code review process, and outlines the release procedure. It is assumed that the reader is familiar with using basic GitHub features and has a GitHub account set up.
+This chapter describes the organization of the code, provides instruction on the GitHub workflow and the code review process, and outlines the release procedure. It is assumed that the reader is familiar with using basic GitHub features. A GitHub account is necessary if a user would like to make and contribute code changes.
 
 -----------------------
 UFS Atmosphere
 -----------------------
 
-The :term:`UFS` Atmosphere source code is contained in the NEMSfv3gfs code repository. CCPP users and developers should use the NEMSfv3gfs code and submodules maintained by GMTB in GitHub. For codes whose authoritative repository is managed by EMC, GMTB synchronizes these with EMC's at periodic intervals. Note that EMC is incrementally transitioning its repositories from VLab to GitHub, and therefore this code management is expected to change in the future. 
+The :term:`UFS` Atmosphere source code is contained in the ufs-weather-model code repository. CCPP users and developers should use the ufs-weather-model code and the associated submodules maintained in GitHub. The umbrella repository is located at:
 
-https://github.com/NCAR/NEMSfv3gfs
+https://github.com/ufs-community/ufs-weather-model
 
-There are five submodules referenced in the NEMSfv3gfs repository
+There are nine submodules referenced in the ufs-weather-model repository:
 
 https://github.com/NCAR/ccpp-framework
 
 https://github.com/NCAR/ccpp-physics
 
-https://github.com/NCAR/FV3
+https://github.com/NOAA-EMC/fv3atm
 
-https://github.com/NCAR/NEMS
+https://github.com/NOAA-EMC/GFDL_atmos_cubed_sphere
 
-https://github.com/NCAR/FMS
+https://github.com/NOAA-EMC/NEMS
+
+https://github.com/NOAA-EMC/FMS
+
+https://github.com/noaa-psd/stochastic_physics
+
+https://github.com/NOAA-EMC/WW3
+
+https://github.com/NOAA-EMC/NCEPLIBS-pyprodutil
 
 Users have read-only access to these repositories and as such cannot accidentally destroy any important (shared) branches of these authoritative repositories.
 
-Some of these repositories are public (no GitHub account required) and some are private. The public repositories (ccpp-framework, ccpp-physics, NEMS, and Flexible Modeling System - FMS) may be used directly to read or create forks. Write permission is generally restricted, however. The private repositories require access - please send a request and your GitHub username to gmtb-help@ucar.edu.
+All of these repositories are public (no GitHub account required) and may be used directly to read or create forks. Write permission is generally restricted, however.  When the umbrella repository is cloned, the following branches will be checked out and are recommended for CCPP users and developers:
 
-The following branches are recommended for CCPP users and developers:
-
-+---------------------------------------------+----------------------+
-| Repository (GMTB development version)       |    Branch name       |
-+=============================================+======================+
-| https://github.com/NCAR/NEMSfv3gfs          |   master             |
-+---------------------------------------------+----------------------+
-| https://github.com/NCAR/FV3                 |   master             |
-+---------------------------------------------+----------------------+
-| https://github.com/NCAR/ccpp-physics        |   master             |
-+---------------------------------------------+----------------------+
-| https://github.com/NCAR/ccpp-framework      |   master             |
-+---------------------------------------------+----------------------+
-| https://github.com/NCAR/NEMS                |   develop            |
-+---------------------------------------------+----------------------+
-| https://github.com/NCAR/FMS                 |    GFS-FMS           |
-+---------------------------------------------+----------------------+
++-----------------------------------------------------+---------------------+--------------------------------------------+
+| Repository (ufs-weather-model release version)      | Branch name         | Directory location under ufs-weather-model |
++=====================================================+=====================+============================================+
+| https://github.com/ufs-community/ufs-weather-model  | ufs_public_release  | `.`                                        |
++-----------------------------------------------------+---------------------+--------------------------------------------+
+| https://github.com/NCAR/ccpp-physics                | ufs_public_release  | FV3/ccpp/physics                           |
++-----------------------------------------------------+---------------------+--------------------------------------------+
+| https://github.com/NCAR/ccpp-framework              | ufs_public_release  | FV3/ccpp/framwwork                         |
++-----------------------------------------------------+---------------------+--------------------------------------------+
+| https://github.com/NOAA-EMC/fv3atm                  | ufs_public_release  | FV3                                        |
++-----------------------------------------------------+---------------------+--------------------------------------------+
+| https://github.com/NOAA-EMC/GFDL_atmos_cubed_sphere | ufs_public_release  | FV3/atmos_cubed_sphere                     |
++-----------------------------------------------------+---------------------+--------------------------------------------+
+| https://github.com/NCAR/NEMS                        | ufs_public_release  | NEMS                                       |
++-----------------------------------------------------+---------------------+--------------------------------------------+
+| https://github.com/NCAR/FMS                         | master              | FMS                                        |
++-----------------------------------------------------+---------------------+--------------------------------------------+
+| https://github.com/noaa-psd/stochastic_physics      | ufs_public_release  | stochastic_physics                         |
++-----------------------------------------------------+---------------------+--------------------------------------------+
+| https://github.com/NOAA-EMC/WW3                     | develop             | WW3                                        |
++-----------------------------------------------------+---------------------+--------------------------------------------+
+| https://github.com/NOAA-EMC/NCEPLIBS-pyprodutil     | port-2-hera         | NEMS/tests/produtil/NCEPLIBS-pyprodutil    |
++-----------------------------------------------------+---------------------+--------------------------------------------+
 
 -----------------------
 SCM
@@ -60,7 +74,7 @@ CCPP developers should use the SCM code and submodules maintained by GMTB in Git
 
 https://github.com/NCAR/gmtb-scm
  
-As with NEMSfv3gfs, there are two submodules referenced in the gmtb-scm repository:
+As with ufs-weather-model, there are two submodules referenced in the gmtb-scm repository:
 
 https://github.com/NCAR/ccpp-framework
 
@@ -73,11 +87,11 @@ The following branches are recommended for CCPP users and developers:
 +----------------------------------------+-------------------+
 | Repository (GMTB development version)  | Branch name       |
 +========================================+===================+
-| https://github.com/NCAR/gmtb-scm       | master            |
+| https://github.com/NCAR/gmtb-scm       | dtc/develop       |
 +----------------------------------------+-------------------+
-| https://github.com/NCAR/ccpp-physics   | master            |
+| https://github.com/NCAR/ccpp-physics   | dtc/develop       |
 +----------------------------------------+-------------------+
-| https://github.com/NCAR/ccpp-framework | master            |
+| https://github.com/NCAR/ccpp-framework | dtc/develop       |
 +----------------------------------------+-------------------+
 
 --------------------------------------
@@ -89,21 +103,13 @@ The following is the directory structure for the ccpp/framework (condensed versi
 .. code-block:: console
 
    ├── cmake                  # cmake files for building
-   ├── doc                    # Documentation for design/implementation
-   │                          # and developers guide
-   │   ├── CCPPtechnical      # CCPP Technical documentation
-   │   │   ├── build
-   │   │   └── source
-   │   │       ├── _static
-   │   │       └── _templates
-   │   ├── common            # Latex style file used by various documentation efforts
+   ├── doc                    # Documentation for design/implementation and developers guide
    │   ├── DevelopersGuide
    │   │   └── images
    │   └── img
    ├── schemes                # Example ccpp_prebuild_config.py
    │   ├── check
-   ├── scripts                # Scripts for ccpp_prebuild.py, metadata
-   │                          # parser, etc.
+   ├── scripts                # Scripts for ccpp_prebuild.py, metadata parser, etc.
    │   ├── fortran_tools
    │   └── parse_tools
    ├── src                    # CCPP framework source code
@@ -121,12 +127,10 @@ The following is the directory structure for the ccpp/physics (condensed version
 
 .. code-block:: console
 
-   ├── physics                 # CCPP physics source code
+   ├── physics                 # CCPP physics source code and metadata files
    │   ├── docs                # Scientific documentation (doxygen)
    │   │   ├── img             # Figures for doxygen
    │   │   └── pdftxt          # Text files for documentation
-   └── stochastic_physics      # Source code for stochastic physics
-
 
 
 =====================================================
@@ -152,27 +156,26 @@ The GitHub forking workflow relies on forks (personal copies) of the shared repo
 
 Note that personal forks are not required until a user wishes to make code contributions. The procedure for how to check out the code laid out below can be followed without having created any forks beforehand.
 
------------------------------------
-Checking out the Code (NEMSfv3gfs)
------------------------------------
-Because of the large number of submodules of the central repository NEMSfv3gfs, we strongly recommend setting up passwordless access to GitHub via https or ssh (see https://help.github.com/categories/authenticating-to-github). In the following, we assume access is via https rather than ssh.
+------------------------------------------
+Checking out the Code (ufs-weather-model)
+------------------------------------------
 
-Start with checking out the main repository from the NCAR GitHub
-
-.. code-block:: console
-
-   git clone https://github.com/NCAR/NEMSfv3gfs
-   cd NEMSfv3gfs
-   git submodule init
-   git submodule update
-
-At this point, you have checked out the correct branches of all six repositories. Each repository is connected to a remote destination (simply called remote in GitHub language), which points to the NCAR GitHub pages and is labeled as origin. For consistency with the CCPP workflow, we recommend renaming the NCAR remote destination to upstream for all six repositories in order to guarantee that your development will be pushed to your fork and not directly to the NCAR repository. For example:
+Start with checking out the main repository from the ufs-community GitHub:
 
 .. code-block:: console
 
-   cd ccpp/framework
+   git clone https://github.com/ufs-community/ufs-weather-model 
+   cd ufs-weather-model
+   git checkout ufs_public_release
+   git submodule update --init --recursive
+
+At this point, you have checked out the correct branches of all tem repositories. Each repository is connected to a remote destination (simply called remote in GitHub language), which points to the ufs-community GitHub pages and is labeled as origin. For consistency with the CCPP workflow, we recommend renaming the ufs-community remote destination to upstream for any repositories that you will be modifying in order to guarantee that your development will be pushed to your fork and not directly to the ufs-community repository. For example:
+
+.. code-block:: console
+
+   cd FV3/ccpp/framework
    git remote rename origin upstream
-   cd ../..
+   cd ../../..
 
 Checking out remote branches as submodules means that your local branches are in a detached head state, since the submodule points to a specific commit. As long as you are not making any modifications in a certain repository, this is not a problem. If during your development changes are made to the corresponding upstream branch, you can simply navigate to this repository and check out the updated version (example NEMS):
 
@@ -180,20 +183,21 @@ Checking out remote branches as submodules means that your local branches are in
 
    cd NEMS
    git remote update
-   git checkout upstream/develop
+   git remote rename origin upstream
+   git checkout upstream/ufs_public_release
    cd ..
 
-However, if you are making changes in a repository (submodule or main repository), you must create a local branch, for example in NEMSfv3gfs:
+However, if you are making changes in a repository (submodule or main repository), you must create a local branch, for example in ufs-weather-model:
 
 .. code-block:: console
 
    git checkout -b my_local_development_branch
  
-Once you are ready to contribute the code to the upstream repository, you need to create a pull request (PR; see next section). In order to do so, you will use your own fork of this repository (see previous section) and configure your fork as an additional remote destination, which we typically label as origin. For the same example NEMSfv3gfs:
+Once you are ready to contribute the code to the upstream repository, you need to create a pull request (PR; see next section). In order to do so, you will use your own fork of this repository (see previous section) and configure your fork as an additional remote destination, which we typically label as origin. For the same example ufs-weather-model:
 
 .. code-block:: console
 
-   git remote add origin https://github.com/YOUR_GITHUB_USER/NEMSfv3gfs
+   git remote add origin https://github.com/YOUR_GITHUB_USER/ufs-weather-model
    git remote update
 
 Then, push your local branch to your fork:
@@ -216,7 +220,7 @@ As opposed to branches without modifications described in step 3, changes to the
 
    cd FV3
    git remote update
-   git pull upstream master
+   git pull upstream ufs_public_release
 
 
 -----------------------------------
@@ -247,7 +251,7 @@ Checking out remote branches means that your local branches are in a detached st
 
    cd ccpp/physics
    git remote update
-   git checkout upstream/master
+   git checkout upstream/dtc/develop
    cd ../..
 
 However, if you are making changes in a repository (submodule or main repository), you must create a local branch, for example in gmtb-scm:
@@ -283,7 +287,7 @@ As opposed to branches without modifications described in step 3, changes to the
 
    cd ccpp/physics
    git remote update
-   git pull upstream master
+   git pull upstream dtc/develop
 
 .. _committing-changes:
 
@@ -316,6 +320,7 @@ This command will show what branch you have checked out on your fork:
 .. code-block:: console
 
    * features/my_local_development_branch
+     dtc/develop
      master
 
 After making modifications and testing, you can commit the changes to your fork.  First check what files have been modified:

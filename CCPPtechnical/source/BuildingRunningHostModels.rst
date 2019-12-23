@@ -4,7 +4,7 @@
 Building and Running Host Models
 ****************************************
 
-The following instructions describe how to compile and run the CCPP code with the SCM (:numref:`Section %s <SCM>`) and with the UFS Atmosphere (:numref:`Section %s <UFSAtmo>`). Instructions are for the *Theia, Jet* and *Cheyenne* computational platforms, with examples on how to run the code on *Theia*.
+The following instructions describe how to compile and run the CCPP code with the SCM (:numref:`Section %s <SCM>`) and with the UFS Atmosphere (:numref:`Section %s <UFSAtmo>`). Instructions are for the *Hera, Jet* and *Cheyenne* computational platforms, with examples on how to run the code on *Hera*.
 
 .. _SCM:
 
@@ -57,7 +57,7 @@ Once NCEPlibs is built, the ``NCEPLIBS_DIR`` environment variable must be set to
 
     export NCEPLIB_DIR=/usr/local/NCEPlibs
 
-If using *Theia* or *Cheyenne* HPC systems, this environment variable is automatically set to an appropriate installation of NCEPlibs on those machines through use of one of the setup scripts described below.
+If using *Hera* or *Cheyenne* HPC systems, this environment variable is automatically set to an appropriate installation of NCEPlibs on those machines through use of one of the setup scripts described below.
 
 Building and Running the SCM
 --------------------------------------------
@@ -78,9 +78,9 @@ Instructions for downloading the code are provided in :numref:`Chapter %s <CodeM
 
 * (Optional) Run the machine setup script if necessary. This script loads compiler modules (Fortran 2003-compliant), netCDF module, etc. and sets compiler environment variables.
 
-   * ``source etc/Theia_setup_intel.csh`` (for csh) or ``. etc/Theia_setup_intel.sh`` (for bash)
-   * ``source etc/Theia_setup_gnu.csh`` (for csh) or ``. etc/Theia_setup_gnu.sh`` (for bash)
-   * ``source etc/Theia_setup_pgi.csh`` (for csh) or ``. etc/Theia_setup_pgi.sh`` (for bash)
+   * ``source etc/Hera_setup_intel.csh`` (for csh) or ``. etc/Hera_setup_intel.sh`` (for bash)
+   * ``source etc/Hera_setup_gnu.csh`` (for csh) or ``. etc/Hera_setup_gnu.sh`` (for bash)
+   * ``source etc/Hera_setup_pgi.csh`` (for csh) or ``. etc/Hera_setup_pgi.sh`` (for bash)
    * ``source etc/Cheyenne_setup_intel.csh`` (for csh) or ``. etc/Cheyenne_setup_intel.sh`` (for bash)
    * ``source etc/Cheyenne_setup_gnu.csh`` (for csh) or ``. etc/Cheyenne_setup_gnu.sh`` (for bash)
    * ``source etc/Cheyenne_setup_pgi.csh`` (for csh) or ``. etc/Cheyenne_setup_pgi.sh`` (for bash)
@@ -165,7 +165,7 @@ Note that using the Thompson microphysics scheme (as in ``SCM_GSD_v0``) requires
     * https://dtcenter.org/GMTB/qr_acr_qg.dat (49 M)
     * https://dtcenter.org/GMTB/qr_acr_qs.dat (32 M)
 
-These files should be staged in ``gmtb-scm/scm/data/physics_input_data`` prior to executing the run script. Since binary files can be system-dependent (due to endianness), it is possible that these files will not be read correctly on your system. For reference, the linked files were generated on *Theia* using the Intel v18 compiler.
+These files should be staged in ``gmtb-scm/scm/data/physics_input_data`` prior to executing the run script. Since binary files can be system-dependent (due to endianness), it is possible that these files will not be read correctly on your system. For reference, the linked files were generated on *Hera* using the Intel v18 compiler.
 
 Also note that some cases require specified surface fluxes. Special SDFs that correspond to the suites listed above have been created and use the ``*_prescribed_surface`` decoration. It is not necessary to specify this filename decoration when specifying the suite name. If the ``spec_sfc_flux`` variable in the configuration file of the case being run is set to ``.true.``, the run script will automatically use the special SDF that corresponds to the chosen suite from the list above.
 
@@ -202,7 +202,7 @@ In addition to the main options, some helper options can also be used with any o
 
 **Batch Run Script**
 
-If using the model on HPC resources and significant amounts of processor time is anticipated for the experiments, it will likely be necessary to submit a job through the HPC’s batch system. An example script has been included in the repository for running the model on *Theia*’s batch system (SLURM). It is located in ``gmtb-scm/scm/etc/gmtb_scm_slurm_example.py``. Edit the job_name, account, etc. to suit your needs and copy to the ``bin`` directory. The case name to be run is included in the command variable. To use, invoke
+If using the model on HPC resources and significant amounts of processor time is anticipated for the experiments, it will likely be necessary to submit a job through the HPC’s batch system. An example script has been included in the repository for running the model on *Hera*’s batch system (SLURM). It is located in ``gmtb-scm/scm/etc/gmtb_scm_slurm_example.py``. Edit the job_name, account, etc. to suit your needs and copy to the ``bin`` directory. The case name to be run is included in the command variable. To use, invoke
 
 .. code-block:: console
 
@@ -217,7 +217,7 @@ Additional information on the SCM can be found at https://dtcenter.org/gmtb/user
 UFS Atmosphere
 ====================
 
-Another option for a CCPP host model is the UFS Atmosphere, located in the umbrella repository NEMSfv3gfs.
+Another option for a CCPP host model is the UFS Atmosphere, located in the umbrella repository ufs-weather-model.
 
 System Requirements, Libraries, and Compilers
 ---------------------------------------------
@@ -292,27 +292,27 @@ A complete listing and description of the FV3 build options were discussed in :n
 
     ./compile.sh $PWD/../FV3 system.compiler 'MAKEOPTS'
 
-Here, ``system`` stands for the machine on which the code is compiled and can be any of the following machines and compilers: *theia, jet, cheyenne, gaea, stampede, wcoss_cray, wcoss_dell_p3, supermuc_phase2, macosx*, or *linux*.
+Here, ``system`` stands for the machine on which the code is compiled and can be any of the following machines and compilers: *hera, jet, cheyenne, gaea, stampede, wcoss_cray, wcoss_dell_p3, supermuc_phase2, macosx*, or *linux*.
 
-``compiler`` stands for the compiler to use and depends on the system. For *theia* and *cheyenne*, the available options are ``intel`` and ``gnu``. For *macosx* and *linux*, the only tested compiler is ``gnu``. For all other platforms, ``intel`` is the only option at this time.
+``compiler`` stands for the compiler to use and depends on the system. For *hera* and *cheyenne*, the available options are ``intel`` and ``gnu``. For *macosx* and *linux*, the only tested compiler is ``gnu``. For all other platforms, ``intel`` is the only option at this time.
 
 The ``MAKEOPTS`` string, enclosed in single or double quotes, allows to specify options for compiling the code. The following options are of interest for building the CCPP version of NEMSfv3gfs:
 
 * **CCPP=Y** - enables :term:`CCPP` (default is ``N``)
 * **STATIC=Y** - enables the CCPP static mode; requires ``CCPP=Y`` (default is ``N``) and ``SUITES=...`` (see below)
 * **SUITES=XYZ, ABC, DEF, ...** - specify SDF(s) to use when compiling the code in CCPP static mode; SDFs are located in ``ccpp/suites/``, omit the path in the argument; requires ``CCPP=Y STATIC=Y`` (default is ``‘’``)
-* **SION=Y** - enables support for the SIONlib I/O library (used by CCPP to read precomputed lookup tables instead of computing them on the fly); available on *Theia, Cheyenne, Jet*; also available on *Mac OS X* and *Linux* if instructions in ``doc/README_{macosx,linux}.txt`` are followed (default is ``N``)
-* **32BIT=Y** - compiles FV3 dynamical core in single precision; note that physics are always compiled in double precision; this option is only available on *Theia, Cheyenne*, and *Jet* (default is ``N``)
+* **SION=Y** - enables support for the SIONlib I/O library (used by CCPP to read precomputed lookup tables instead of computing them on the fly); available on *Hera, Cheyenne, Jet*; also available on *Mac OS X* and *Linux* if instructions in ``doc/README_{macosx,linux}.txt`` are followed (default is ``N``)
+* **32BIT=Y** - compiles FV3 dynamical core in single precision; note that physics are always compiled in double precision; this option is only available on *Hera, Cheyenne*, and *Jet* (default is ``N``)
 * **REPRO=Y** - compiles code in :term:`REPRO` mode, i.e. removes certain compiler optimization flags used in the default :term:`PROD` mode to obtain bit-for-bit (b4b) identical results between CCPP and non-CCPP code (default is ``N``)
 * **DEBUG=Y** - compiles code in DEBUG mode, i.e. removes all optimization of :term:`PROD` mode and add bound checks; mutually exclusive with ``REPRO=Y`` (default is ``N``)
 
 Examples:
 
-* Compile non-CCPP code with 32-bit dynamics on *Theia* with the Intel compiler
+* Compile non-CCPP code with 32-bit dynamics on *Hera* with the Intel compiler
 
     .. code-block:: console
 
-        ./compile.sh $PWD/../FV3 theia.intel ‘32BIT=Y’
+        ./compile.sh $PWD/../FV3 hera.intel ‘32BIT=Y’
 
 * Compile dynamic CCPP code in ``DEBUG`` mode on *Jet*
 
@@ -324,13 +324,13 @@ Examples:
 
     .. code-block:: console
 
-        ./compile.sh $PWD/../FV3 linux.gnu ‘SION=Y CCPP=Y STATIC=Y SUITES=FV3_CPT_v0’
+        ./compile.sh $PWD/../FV3 linux.gnu ‘SION=Y CCPP=Y STATIC=Y SUITES=FV3_GFS_v15p2’
 
 * *Cheyenne* static build with multiple suites:
 
     .. code-block:: console
 
-        ./compile.sh $PWD/../FV3 cheyenne.intel ‘CCPP=Y STATIC=Y SUITES=FV3_GFS_v15,FV3_CPT_v0’
+        ./compile.sh $PWD/../FV3 cheyenne.intel ‘CCPP=Y STATIC=Y SUITES=FV3_GFS_v15p2,FV3_GFS_v16beta’
 
 
 Running the UFS Atmosphere Using the Regression Tests (RTs)
@@ -341,7 +341,7 @@ Regression testing is the process of testing changes to the programs to make sur
 Overview of the RTs
 ^^^^^^^^^^^^^^^^^^^
 
-The RT configuration files are located in ``./tests`` relative to the top-level directory of NEMSfv3gfs and have names ``rt*.conf``. The default RT configuration file, supplied with the NEMSfv3gfs master is called ``rt.conf`` and runs four types of configurations: IPD PROD, IPD REPRO, CCPP PROD, and CCPP REPRO. For the IPD configurations, CCPP is not used, that is, the code is compiled with ``CCPP=N``. The PROD configurations use the compiler flags used in NCEP operations for superior performance, while the REPRO configurations remove certain compiler flags to create b4b identical results between CCPP and IPD configurations. Before running the RT script ``rt.sh`` in directory ``./tests``, the user has to set some environment variables on the working shell: ``ACCNR`` (account to be charged for running the RTs), ``NEMS_COMPILER`` (optional for the ``intel`` compiler option, set to ``gnu`` to switch), and potentially ``RUNDIR_ROOT`` (location for the RT run directories), underneath which directories called ``rt_$PID`` are created (``$PID`` is the process identifier of the ``rt.sh`` invocation). This may be required on systems where the user does not have write permissions in the default run directory tree.
+The RT configuration files are located in ``./tests`` relative to the top-level directory of ufs-weather-model and have names ``rt*.conf``. The default RT configuration file, supplied with the ufs-weather-model ufs_public_release branch is called ``rt.conf`` and runs four types of configurations: IPD PROD, IPD REPRO, CCPP PROD, and CCPP REPRO. For the IPD configurations, CCPP is not used, that is, the code is compiled with ``CCPP=N``. The PROD configurations use the compiler flags used in NCEP operations for superior performance, while the REPRO configurations remove certain compiler flags to create b4b identical results between CCPP and IPD configurations. Before running the RT script ``rt.sh`` in directory ``./tests``, the user has to set some environment variables on the working shell: ``ACCNR`` (account to be charged for running the RTs), ``NEMS_COMPILER`` (optional for the ``intel`` compiler option, set to ``gnu`` to switch), and potentially ``RUNDIR_ROOT`` (location for the RT run directories), underneath which directories called ``rt_$PID`` are created (``$PID`` is the process identifier of the ``rt.sh`` invocation). This may be required on systems where the user does not have write permissions in the default run directory tree.
 
 .. code-block:: console
 
@@ -363,7 +363,7 @@ This command and all others below produce log output in ``./tests/log_machine.co
 Baselines
 ^^^^^^^^^^^^^^^^^^^
 
-Regression testing is only possible on machines for which baselines exist. EMC maintains *official baselines* on *Theia* and *Wcoss* created with the Intel compiler. GMTB maintains additional baselines on *Jet*, *Cheyenne*, and *Gaea*. While GMTB is trying to keep up with changes to the official repositories, baselines maintained by GMTB are not guaranteed to be up-to-date.
+Regression testing is only possible on machines for which baselines exist. EMC maintains *official baselines* on *Hera* and *Wcoss* created with the Intel compiler. GMTB maintains additional baselines on *Jet*, *Cheyenne*, and *Gaea*. While GMTB is trying to keep up with changes to the official repositories, baselines maintained by GMTB are not guaranteed to be up-to-date.
 
 When porting the code to a new machine, it is useful to start by establishing a *personal baseline*. Future runs of the RT can then be compared against the *personal baseline* to ascertain that the results have not been inadvertently affected by code developments. The ``rt.sh -c`` option is used to create a *personal baseline*.
 
@@ -384,15 +384,17 @@ The script rt.sh
 
 .. code-block:: console
 
-    Usage: $0 -c <model> | -f | -s | -l <file> | -m | -r | -e | -h
-    -c  create new baseline results for <model>
-    -f  run full suite of regression tests
-    -s  run standard suite of regression tests
-    -l  run test specified in <file>
-    -m  compare against new baseline results
-    -r  use Rocoto workflow manager
-    -e  use ecFlow workflow manager
-    -h  display this help
+    Usage: rt.sh -c <model> | -f | -s | -l <file> | -m | -k | -r | -e | -h
+
+     -c  create new baseline results for <model>
+     -f  run full suite of regression tests
+     -s  run standard suite of regression tests
+     -l  runs test specified in <file>
+     -m  compare against new baseline results
+     -k  keep run directory
+     -r  use Rocoto workflow manager
+     -e  use ecFlow workflow manager
+     -h  display this help
 
 The location of the run directories and *personal baseline* directories is controlled in ``rt.sh`` on a per-machine basis. The user is strongly advised to NOT modify the path to the *official baseline* directories.
 
@@ -415,7 +417,7 @@ Note that ``yyyymmdd`` is the year, month and day the baseline was created using
 
 and RTs are run in ``$RUNDIR_ROOT``.
 
-Example: *Theia*
+Example: *Hera*
 
 .. code-block:: console
 
@@ -437,6 +439,6 @@ In case a user does not have write permissions to ``$STMP (/scratch4/NCEPDEV/stm
 Compatibility between the Code Base, the SDF, and the Namelist in the UFS Atmosphere
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The variable ``suite_name`` within the ``namelist.input`` file used in the UFS Atmosphere determines which suite will be employed at run time (e.g., ``suite_name=FV3_GFS_v15``). It is the user’s responsibility to ascertain that the other variables in ``namelist.input`` are compatible with the chosen suite. When runs are executed using the RT framework described in the preceding sections, compatibility is assured. For new experiments, users are responsible for modifying the two files (``SDF`` and ``namelist.input``) consistently, since limited checks are in place.
+The variable ``suite_name`` within the ``namelist.input`` file used in the UFS Atmosphere determines which suite will be employed at run time (e.g., ``suite_name=FV3_GFS_v15p2``). It is the user’s responsibility to ascertain that the other variables in ``namelist.input`` are compatible with the chosen suite. When runs are executed using the RT framework described in the preceding sections, compatibility is assured. For new experiments, users are responsible for modifying the two files (``SDF`` and ``namelist.input``) consistently, since limited checks are in place.
 
 Information about the UFS Atmosphere physics namelist can be found with the CCPP Scientific Documentation at https://dtcenter.org/GMTB/v3.0/sci_doc/.

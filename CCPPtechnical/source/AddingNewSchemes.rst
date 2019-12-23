@@ -24,7 +24,7 @@ This chapter contains a brief description on how to add a new scheme to the *CCP
 
 * Locate the CCPP *prebuild* configuration files for the target host model, for example:
 
-    * ``NEMSfv3gfs/ccpp/config/ccpp_prebuild_config.py`` for the UFS Atmosphere
+    * ``ufs-weather-model/FV3/ccpp/config/ccpp_prebuild_config.py`` for the UFS Atmosphere
     * ``gmtb-scm/ccpp/config/ccpp_prebuild_config.py`` for the SCM
 
 * Add the new scheme to the Python dictionary in ``ccpp_prebuild_config.py`` using the same path
@@ -54,7 +54,7 @@ This chapter contains a brief description on how to add a new scheme to the *CCP
 
 * Edit the SDF and add the new scheme at the place it should be run. SDFs are located in
 
-    * ``NEMSfv3gfs/ccpp/suites`` for the UFS Atmosphere
+    * ``ufs-weather-model/FV3/ccpp/suites`` for the UFS Atmosphere
     * ``gmtb-scm/ccpp/suites`` for the SCM
 
 * Before running, check for consistency between the namelist and the SDF. There is no default consistency check between the SDF and the namelist unless the developer adds one. Errors may result in segmentation faults in running something you did not intend to run if the arrays are not allocated.
