@@ -40,31 +40,31 @@ https://github.com/NOAA-EMC/NCEPLIBS-pyprodutil
 
 Users have read-only access to these repositories and as such cannot accidentally destroy any important (shared) branches of these authoritative repositories.
 
-All of these repositories are public (no GitHub account required) and may be used directly to read or create forks. Write permission is generally restricted, however.  When the umbrella repository is cloned, the following branches will be checked out and are recommended for CCPP users and developers:
+All of these repositories are public (no GitHub account required) and may be used directly to read or create forks. Write permission is generally restricted, however.  The following table shows the default branch of each authoritative repository and are recommended for CCPP users and developers:
 
-+-----------------------------------------------------+---------------------+--------------------------------------------+
-| Repository (ufs-weather-model release version)      | Branch name         | Directory location under ufs-weather-model |
-+=====================================================+=====================+============================================+
-| https://github.com/ufs-community/ufs-weather-model  | ufs_public_release  | `.`                                        |
-+-----------------------------------------------------+---------------------+--------------------------------------------+
-| https://github.com/NCAR/ccpp-physics                | ufs_public_release  | FV3/ccpp/physics                           |
-+-----------------------------------------------------+---------------------+--------------------------------------------+
-| https://github.com/NCAR/ccpp-framework              | ufs_public_release  | FV3/ccpp/framwwork                         |
-+-----------------------------------------------------+---------------------+--------------------------------------------+
-| https://github.com/NOAA-EMC/fv3atm                  | ufs_public_release  | FV3                                        |
-+-----------------------------------------------------+---------------------+--------------------------------------------+
-| https://github.com/NOAA-EMC/GFDL_atmos_cubed_sphere | ufs_public_release  | FV3/atmos_cubed_sphere                     |
-+-----------------------------------------------------+---------------------+--------------------------------------------+
-| https://github.com/NCAR/NEMS                        | ufs_public_release  | NEMS                                       |
-+-----------------------------------------------------+---------------------+--------------------------------------------+
-| https://github.com/NCAR/FMS                         | master              | FMS                                        |
-+-----------------------------------------------------+---------------------+--------------------------------------------+
-| https://github.com/noaa-psd/stochastic_physics      | ufs_public_release  | stochastic_physics                         |
-+-----------------------------------------------------+---------------------+--------------------------------------------+
-| https://github.com/NOAA-EMC/WW3                     | develop             | WW3                                        |
-+-----------------------------------------------------+---------------------+--------------------------------------------+
-| https://github.com/NOAA-EMC/NCEPLIBS-pyprodutil     | port-2-hera         | NEMS/tests/produtil/NCEPLIBS-pyprodutil    |
-+-----------------------------------------------------+---------------------+--------------------------------------------+
++-----------------------------------------------------+-------------+--------------------------------------------+
+| Repository (ufs-weather-model release version)      | Branch name | Directory location under ufs-weather-model |
++=====================================================+=============+============================================+
+| https://github.com/ufs-community/ufs-weather-model  | develop     | `.`                                        |
++-----------------------------------------------------+-------------+--------------------------------------------+
+| https://github.com/NCAR/ccpp-physics                | master      | FV3/ccpp/physics                           |
++-----------------------------------------------------+-------------+--------------------------------------------+
+| https://github.com/NCAR/ccpp-framework              | master      | FV3/ccpp/framwwork                         |
++-----------------------------------------------------+-------------+--------------------------------------------+
+| https://github.com/NOAA-EMC/fv3atm                  | develop     | FV3                                        |
++-----------------------------------------------------+-------------+--------------------------------------------+
+| https://github.com/NOAA-EMC/GFDL_atmos_cubed_sphere | dev/emc     | FV3/atmos_cubed_sphere                     |
++-----------------------------------------------------+-------------+--------------------------------------------+
+| https://github.com/NCAR/NEMS                        | develop     | NEMS                                       |
++-----------------------------------------------------+-------------+--------------------------------------------+
+| https://github.com/NCAR/FMS                         | master      | FMS                                        |
++-----------------------------------------------------+-------------+--------------------------------------------+
+| https://github.com/noaa-psd/stochastic_physics      | master      | stochastic_physics                         |
++-----------------------------------------------------+-------------+--------------------------------------------+
+| https://github.com/NOAA-EMC/WW3                     | master      | WW3                                        |
++-----------------------------------------------------+-------------+--------------------------------------------+
+| https://github.com/NOAA-EMC/NCEPLIBS-pyprodutil     | develop     | NEMS/tests/produtil/NCEPLIBS-pyprodutil    |
++-----------------------------------------------------+-------------+--------------------------------------------+
 
 -----------------------
 SCM
@@ -84,15 +84,15 @@ Users have read-only access to these repositories and as such cannot accidentall
 
 The following branches are recommended for CCPP users and developers:
 
-+----------------------------------------+-------------------+
-| Repository (GMTB development version)  | Branch name       |
-+========================================+===================+
-| https://github.com/NCAR/gmtb-scm       | dtc/develop       |
-+----------------------------------------+-------------------+
-| https://github.com/NCAR/ccpp-physics   | dtc/develop       |
-+----------------------------------------+-------------------+
-| https://github.com/NCAR/ccpp-framework | dtc/develop       |
-+----------------------------------------+-------------------+
++----------------------------------------+-------------+
+| Repository (GMTB development version)  | Branch name |
++========================================+=============+
+| https://github.com/NCAR/gmtb-scm       | master      |
++----------------------------------------+-------------+
+| https://github.com/NCAR/ccpp-physics   | master      |
++----------------------------------------+-------------+
+| https://github.com/NCAR/ccpp-framework | master      |
++----------------------------------------+-------------+
 
 --------------------------------------
 Directory Structure of ccpp/framework

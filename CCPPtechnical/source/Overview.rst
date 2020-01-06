@@ -116,47 +116,49 @@ and suites to be included and supported. The governance of the CCPP-Framework is
 undertaken by NOAA and NCAR (see more information at https://github.com/NCAR/ccpp-framework/wiki
 and https://dtcenter.org/gmtb/users/ccpp). Please direct all inquiries to gmtb-help@ucar.edu. 
 
-TODO:  update this table
-
 .. _scheme_suite_table:
 
 .. table:: Suites supported in the CCPP
 
-   +--------------------+-------------+-----------------+-------------+--------------+
-   |                    | **GFS v15** | **GFS_v15plus** | **CPT_v0**  | **GSD_v0**   |
-   +====================+=============+=================+=============+==============+
-   | Microphysics       | GFDL        | GFDL            | aaMG3       | aaThompson   |
-   +--------------------+-------------+-----------------+-------------+--------------+
-   | PBL                | EDMF        | TKE EDMF        | EDMF        | MYNN         |
-   +--------------------+-------------+-----------------+-------------+--------------+
-   | Deep convection    | saSAS       | saSAS           | CSAW        | GF           |
-   +--------------------+-------------+-----------------+-------------+--------------+
-   | Shallow convection | saSAS       | saSAS           | saSAS       | MYNN and GF  |
-   +--------------------+-------------+-----------------+-------------+--------------+
-   | Radiation          | RRTMG       | RRTMG           | RRTMG       | RRTMG        |
-   +--------------------+-------------+-----------------+-------------+--------------+
-   | Surface layer      | GFS         | GFS             | GFS         | GFS          |
-   +--------------------+-------------+-----------------+-------------+--------------+
-   | Land surface       | Noah        | Noah            | Noah        | RUC          |
-   +--------------------+-------------+-----------------+-------------+--------------+
-   | Ozone              | NRL 2015    | NRL 2015        | NRL 2015    | NRL 2015     |
-   +--------------------+-------------+-----------------+-------------+--------------+
-   | H\ :sub:`2`\ O     | NRL 2015    | NRL 2015        | NRL 2015    | NRL 2015     |
-   +--------------------+-------------+-----------------+-------------+--------------+
+   +--------------------+-----------------+--------------------------------------------------+
+   |                    | **Operational** |           **Experimental**                       |
+   +====================+=================+=================+=============+==================+
+   |                    | **GFS_v15.2**   | **GFS_v16beta** | **csawmg**  | **GSD_v1**       |
+   +--------------------+-----------------+-----------------+-------------+------------------+
+   | Microphysics       | GFDL            | GFDL            | M-G3        | Thompson         |
+   +--------------------+-----------------+-----------------+-------------+------------------+
+   | PBL                | K-EDMF          | TKE EDMF        | K-EDMF      | saMYNN           |
+   +--------------------+-----------------+-----------------+-------------+------------------+
+   | Deep convection    | saSAS           | saSAS           | CSAW        | GF               |
+   +--------------------+-----------------+-----------------+-------------+------------------+
+   | Shallow convection | saSAS           | saSAS           | saSAS       | saMYNN and saSAS |
+   +--------------------+-----------------+-----------------+-------------+------------------+
+   | Radiation          | RRTMG           | RRTMG           | RRTMG       | RRTMG            |
+   +--------------------+-----------------+-----------------+-------------+------------------+
+   | Surface layer      | GFS             | GFS             | GFS         | GFS              |
+   +--------------------+-----------------+-----------------+-------------+------------------+
+   | Gravity Wave Drag  | uGWD            | uGWD            | uGWD        | uGWD             |
+   +--------------------+-----------------+-----------------+-------------+------------------+
+   | Land surface       | Noah            | Noah            | Noah        | RUC              |
+   +--------------------+-----------------+-----------------+-------------+------------------+
+   | Ozone              | NRL 2015        | NRL 2015        | NRL 2015    | NRL 2015         |
+   +--------------------+-----------------+-----------------+-------------+------------------+
+   | H\ :sub:`2`\ O     | NRL 2015        | NRL 2015        | NRL 2015    | NRL 2015         |
+   +--------------------+-----------------+-----------------+-------------+------------------+
 
-*The suites that are currently supported in the CCPP are listed in the first row. The
-types of parameterization are denoted in the first column, where H2O represent the stratospheric water
-vapor parameterization. The GFS_v15 suite includes the GFDL microphysics, a Eddy-Diffusivity Mass
-Flux (EDMF) planetary boundary layer (PBL) scheme, scale-aware (sa) Simplified Arakawa-Schubert
+*The suites that are currently supported in the CCPP are listed in the second row. The
+types of parameterization are denoted in the first column, where H2O represents the stratospheric water
+vapor parameterization. The GFS_v15.2 suite includes the GFDL microphysics, a Eddy-Diffusivity Mass
+Flux (K-EDMF) planetary boundary layer (PBL) scheme, scale-aware (sa) Simplified Arakawa-Schubert
 (SAS) convection, Rapid Radiation Transfer Model for General Circulation Models (RRTMG) radiation,
-the GFS surface layer, the Noah Land Surface Model (LSM), and the 2015 Navy Research Laboratory
-(NRL) ozone and stratospheric water vapor schemes. The other three suites are candidates for
-future operational implementations. The GFS_v15plus suite is the same as the GFS_v15 suite
-except using the Turbulent Kinetic Energy (TKE)-based EDMF PBL scheme. The Climate Process
-Team (CPT) v0 suite (CPT_v0) uses the aerosol-aware (aa) Morrison-Gettelman 3 (MG3) microphysics
+the GFS surface layer, the unified gravity wave drag (uGWD), the Noah Land Surface Model (LSM),
+and the 2015 Navy Research Laboratory (NRL) ozone and stratospheric water vapor schemes. 
+The other three suites are candidates for future operational implementations. The GFS_v16beta 
+suite is the same as the GFS_v15.2 suite except using the Turbulent Kinetic Energy (TKE)-based EDMF
+PBL scheme. The Chikira-Sugiyama (csawmg) suite uses the Morrison-Gettelman 3 (M-G3) microphysics
 scheme and Chikira-Sugiyama convection scheme with Arakawa-Wu extension (CSAW). The NOAA Global
-Systems Division (GSD) v0 suite (GSD_v0) includes aaThompson microphysics,
-Mellor-Yamada-Nakanishi-Niino (MYNN) PBL and shallow convection, Grell-Freitas (GF) deep
+Systems Division (GSD) v1 suite (GSD_v1) includes Thompson microphysics,
+scale-aware Mellor-Yamada-Nakanishi-Niino (saMYNN) PBL and shallow convection, Grell-Freitas (GF) deep
 convection schemes, and the Rapid Update Cycle (RUC) LSM.*
 
 
