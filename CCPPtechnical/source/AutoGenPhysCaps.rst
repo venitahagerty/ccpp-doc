@@ -32,7 +32,7 @@ The CCPP *prebuild* step for the dynamic build performs the following tasks:
 * Checks requested vs provided variables by ``standard_name``.
 * Checks units, rank, type for consistency. Perform unit conversions if a mismatch
   of units is detected and the required conversion has been implemented (see
-  :numref:`Chapter %s <AutomaticUnitConversions>` for details).
+  :numref:`Section %s <AutomaticUnitConversions>` for details).
 * Creates Fortran code that adds pointers to the host model variables and stores them in the 
   ccpp-data structure (``ccpp_fields_*.inc``). A hash table that is part of cdata is populated with 
   key = standard_name of a variable and value = location of that variable in memory (i.e. a c-pointer).
@@ -217,7 +217,7 @@ The CCPP *prebuild* step for the static build performs the tasks below.
 * Check requested vs provided variables by ``standard_name``.
 * Check units, rank, type. Perform unit conversions if a mismatch
   of units is detected and the required conversion has been implemented (see
-  :numref:`Chapter %s <AutomaticUnitConversions>` for details).
+  :numref:`Section %s <AutomaticUnitConversions>` for details).
 * Filter unused schemes and variables.
 * Create Fortran code for the static Application Programming Interface (API) that replaces the dynamic API (CCPP-Framework). The hash table used by the dynamic build to store variables in memory is left empty. 
 * Create *caps* for groups and suite(s).

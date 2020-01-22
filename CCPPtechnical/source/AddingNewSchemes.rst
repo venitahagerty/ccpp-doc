@@ -10,7 +10,7 @@ This chapter contains a brief description on how to add a new scheme to the *CCP
 
     * If the variables are already available, they can be invoked in the scheme’s metadata file and one can skip the rest of this subsection. If the variable required is not available, consider if it can be calculated from the existing variables in the CCPP. If so, an interstitial scheme (such as ``scheme_pre``; see more in :numref:`Chapter %s <CompliantPhysParams>`) can be created to calculate the variable. However, the variable must be defined but not initialized in the host model as the memory for this variable must be allocated on the host model side.  Instructions for how to add variables to the host model side is described in :numref:`Chapter %s <Host-side Coding>`.
 
-     .. note:: The CCPP framework is capable of performing automatic unit conversions between variables provided by the host model and variables required by the new scheme. See :numref:`Chapter %s <AutomaticUnitConversions>` for details.
+     .. note:: The CCPP framework is capable of performing automatic unit conversions between variables provided by the host model and variables required by the new scheme. See :numref:`Section %s <AutomaticUnitConversions>` for details.
 
     * If new namelist variables need to be added, the ``GFS_control_type`` DDT should be used. In this case, it is also important to modify the namelist file ``input.nml`` to include the new variable.
 
