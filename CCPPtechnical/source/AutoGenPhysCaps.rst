@@ -30,7 +30,9 @@ are described in the ``.meta`` files associated with the host model and the sche
 The CCPP *prebuild* step for the dynamic build performs the following tasks:
 
 * Checks requested vs provided variables by ``standard_name``.
-* Checks units, rank, type.
+* Checks units, rank, type for consistency. Perform unit conversions if a mismatch
+  of units is detected and the required conversion has been implemented (see
+  :numref:`Section %s <AutomaticUnitConversions>` for details).
 * Creates Fortran code that adds pointers to the host model variables and stores them in the 
   ccpp-data structure (``ccpp_fields_*.inc``). A hash table that is part of cdata is populated with 
   key = standard_name of a variable and value = location of that variable in memory (i.e. a c-pointer).
@@ -213,7 +215,9 @@ and therefore requires one or more SDFs (see left side of :numref:`Figure %s <cc
 The CCPP *prebuild* step for the static build performs the tasks below.
 
 * Check requested vs provided variables by ``standard_name``.
-* Check units, rank, type.
+* Check units, rank, type. Perform unit conversions if a mismatch
+  of units is detected and the required conversion has been implemented (see
+  :numref:`Section %s <AutomaticUnitConversions>` for details).
 * Filter unused schemes and variables.
 * Create Fortran code for the static Application Programming Interface (API) that replaces the dynamic API (CCPP-Framework). The hash table used by the dynamic build to store variables in memory is left empty. 
 * Create *caps* for groups and suite(s).
@@ -436,5 +440,60 @@ file* ``ccpp_FV3_GFS_v15_cap.F90`` *showing calls to the group caps*
 ``FV3_GFS_v15_fast_physics_init_cap``, ``FV3_GFS_v15_time_vary_init_cap`` *, etc. 
 for the static build where a group name is not specified.*
 
+.. _AutomaticUnitConversions:
 
+Automatic unit conversions
+==========================
 
+The CCPP framework is capable of performing automatic unit conversions if a mismatch of
+units between the host model and a physics scheme is detected, provided that the required
+unit conversion has been implemented.
+
+If a mismatch of units is detected and an automatic unit conversion can be performed,
+the CCPP prebuild script will document this with a log message as in the following example:
+
+.. code-block:: console
+
+   INFO: Comparing metadata for requested and provided variables ...
+   INFO: Automatic unit conversion from m to um for effective_radius_of_stratiform_cloud_ice_particle_in_um after returning from MODULE_mp_thompson SCHEME_mp_thompson SUBROUTINE_mp_thompson_run
+   INFO: Automatic unit conversion from m to um for effective_radius_of_stratiform_cloud_liquid_water_particle_in_um after returning from MODULE_mp_thompson SCHEME_mp_thompson SUBROUTINE_mp_thompson_run
+   INFO: Automatic unit conversion from m to um for effective_radius_of_stratiform_cloud_snow_particle_in_um after returning from MODULE_mp_thompson SCHEME_mp_thompson SUBROUTINE_mp_thompson_run
+   INFO: Generating schemes makefile/cmakefile snippet ...
+
+The CCPP framework is performing only the minimum unit conversions necessary, depending on the
+intent information of the variable in the parameterization's metadata table. In the above example,
+the cloud effective radii are ``intent(out)`` variables, which means that no unit conversion is required
+before entering the subroutine ``mp_thompson_run``. Below are examples for auto-generated code performing
+automatic unit conversions from ``m`` to ``um`` or back, depending on the intent of the variable. The conversions
+are performed in the individual physics scheme caps for the dynamic build, or the group caps for the static build.
+
+.. code-block:: fortran
+
+   ! var1 is intent(in)
+           call mp_thompson_run(...,recloud=1.0E-6_kind_phys*re_cloud,...,errmsg=cdata%errmsg,errflg=cdata%errflg)
+           ierr=cdata%errflg
+
+   ! var1 is intent(inout)
+           allocate(tmpvar1, source=re_cloud)
+           tmpvar1 = 1.0E-6_kind_phys*re_cloud
+           call mp_thompson_run(...,re_cloud=tmpvar1,...,errmsg=cdata%errmsg,errflg=cdata%errflg)
+           ierr=cdata%errflg
+           re_cloud = 1.0E+6_kind_phys*tmpvar1
+           deallocate(tmpvar1)
+
+   ! var1 is intent(out)
+           allocate(tmpvar1, source=re_cloud)
+           call mp_thompson_run(...,re_cloud=tmpvar1,...,errmsg=cdata%errmsg,errflg=cdata%errflg)
+           ierr=cdata%errflg
+           re_cloud = 1.0E+6_kind_phys*tmpvar1
+           deallocate(tmpvar1)
+
+If a required unit conversion has not been implemented the CCPP prebuild script will generate an error message as follows:
+
+.. code-block:: console
+
+   INFO: Comparing metadata for requested and provided variables ...
+   ERROR: Error, automatic unit conversion from m to pc for effective_radius_of_stratiform_cloud_ice_particle_in_um in MODULE_mp_thompson SCHEME_mp_thompson SUBROUTINE_mp_thompson_run not implemented
+
+All automatic unit conversions are implemented in ``ccpp/framework/scripts/conversion_tools/unit_conversion.py``,
+new unit conversions can be added to this file by following the existing examples.
