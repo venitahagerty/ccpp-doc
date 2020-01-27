@@ -23,7 +23,9 @@ on the host model side and from the individual physics schemes (``.meta`` files;
  * Compiles a list of variables provided by the host model.
 
  * Matches these variables by their ``standard_name``, checks for missing variables and mismatches of their 
-   attributes (e.g., units, rank, type, kind) and processes information on optional variables.
+   attributes (e.g., units, rank, type, kind) and processes information on optional variables. Performs
+   automatic unit conversions if a mismatch of units is detected between a scheme and the host model
+   (see :numref:`Section %s <AutomaticUnitConversions>` for details).
 
  * For the static build only, filters out unused variables for a given suite.
 
