@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-CCPP Technical Documentation
+CCPP v4 Technical Documentation
 ============================
 
 .. toctree::
@@ -18,7 +18,6 @@ CCPP Technical Documentation
    HostSideCoding
    CodeManagement
    CCPPPreBuild
-   BuildingRunningHostModels
    AddingNewSchemes
    Acronyms
    Glossary

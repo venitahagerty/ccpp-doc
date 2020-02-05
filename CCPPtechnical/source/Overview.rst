@@ -4,9 +4,9 @@
 CCPP Overview
 *************************
 
-.. note:: The information in this document is updated periodically with changes to the CCPP and GMTB
-   SCM dtc/develop branch. To obtain and build the latest available Technical Documentation from
-   this branch of the ccpp-doc code repository:
+.. note:: The information in this document icorresponds to the CCPP v4 release.
+   To obtain and build the latest available Technical Documentation use, the following:
+   commands:
 
     .. code-block:: console
 
