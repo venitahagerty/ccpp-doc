@@ -4,7 +4,7 @@
 CCPP Overview
 *************************
 
-.. note:: The information in this document icorresponds to the CCPP v4 release.
+.. note:: The information in this document corresponds to the CCPP v4 release.
    To obtain and build the latest available Technical Documentation use, the following:
    commands:
 
