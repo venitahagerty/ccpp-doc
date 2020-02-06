@@ -4,15 +4,15 @@
 CCPP Overview
 *************************
 
-.. note:: The information in this document is updated periodically with changes to the CCPP and GMTB
-   SCM dtc/develop branch. To obtain and build the latest available Technical Documentation from
-   this branch of the ccpp-doc code repository:
+.. note:: The information in this document corresponds to the CCPP v4 release.
+   To obtain and build the latest available Technical Documentation use, the following:
+   commands:
 
     .. code-block:: console
 
        git clone https://github.com/NCAR/ccpp-doc
        cd ccpp-doc
-       git checkout dtc/develop
+       git checkout master
        cd CCPPtechnical   
        make html
        make latexpdf
@@ -70,9 +70,9 @@ defines several differences in the creation and use of the auto-generated code, 
 which are not exposed to the user.  The differences pertain to the interfaces between
 CCPP-Framework and the physics (physics *caps*) and the host model (host model *cap*), as
 well as in the procedures for calling the physics. In addition, the building option varies
-with choice of the host model. When the CCPP is connected to the SCM, the dynamic build
-option should be used. When the CCPP is used with the :term:`UFS Atmosphere`, users have multiple
-building options and should choose the one that best matches their needs.
+with choice of the host model. The only CCPP build option supported for use with the
+CCPP Single-Column Model v4.0 or with the 
+UFS Medium-Range Weather Application v1.0 is the static build. 
 
 The :term:`CCPP-Physics` contains the parameterizations and suites that are used operationally in
 the UFS Atmosphere, as well as parameterizations that are under development for possible

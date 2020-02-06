@@ -551,7 +551,7 @@ The following sections describe two implementations of host model caps to serve 
 SCM Host Cap
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 
-The only build type available for the SCM is the dynamic build. The cap functions are mainly implemented in:
+The only build type supported for the SCM v4 is the static build. The cap functions are mainly implemented in:
 
 ``gmtb-scm/scm/src/gmtb_scm.F90``
 
@@ -624,7 +624,7 @@ The host model *cap* is responsible for:
 UFS Atmosphere Host Cap
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 
-For the UFS Atmosphere, there are slightly different versions of the host cap implementation depending on the desired build type (dynamic or static). As discussed in :numref:`Chapter %s <CCPPPreBuild>`, these modes are controlled via appropriate strings included in the MAKEOPTS build-time argument. Within the source code, the three modes are executed within appropriate pre-processor directive blocks:
+For the UFS Atmosphere, there are slightly different versions of the host cap implementation depending on the desired build type (dynamic or static). Only the static build is publicly supported at this time, as the dynamic build will be deprecated soon. As discussed in :numref:`Chapter %s <CCPPPreBuild>`, these modes are controlled via appropriate strings included in the MAKEOPTS build-time argument. Within the source code, the three modes are executed within appropriate pre-processor directive blocks:
 
 For any build that uses CCPP (dynamic orstatic):
 
