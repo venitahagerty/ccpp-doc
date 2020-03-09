@@ -4,7 +4,7 @@
    contain the root `toctree` directive.
 
 CCPP v4 Technical Documentation
-============================
+===============================
 
 .. toctree::
    :numbered:

@@ -566,10 +566,12 @@ Using Doxygen
 
 In order to generate the doxygen-based documentation, one needs to follow five steps:
 
-#. Have the doxygen executable installed on your computer. For example, for the NOAA
-   machine Theia, add the following line into ``.cshrc`` file in your home directory:
+#. Have the doxygen executable installed on your computer. For the NOAA
+   machine Hera and the NCAR machine Cheyenne, the doxygen executable resides in ``/usr/bin``,
+   which should be in your ``$PATH``.  If you need to install doxygen in another location, add
+   the following line into the ``.cshrc`` file in your home directory:
 
-   ``alias doxygen /scratch4/BMC/gmtb/doxygen-1.8.10/bin/doxygen``
+   ``alias doxygen /path/to/doxygen``
 
     Source your ``.cshrc`` file.
 
