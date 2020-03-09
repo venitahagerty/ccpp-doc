@@ -161,10 +161,10 @@ Consider the case where a model requires that some subset of physics be called o
    </suite>
 
 -------------------------------
-Operational GFS v16beta Suite
+GFS v16beta Suite
 -------------------------------
 
-Here is the :term:`SDF` for the physics suite equivalent to the operational GFS v16beta in the :term:`UFS` Atmosphere, which employs various groups and subcycling:
+Here is the :term:`SDF` for the physics suite equivalent to the GFS v16beta in the :term:`UFS` Atmosphere, which employs various groups and subcycling:
 
 .. code-block:: xml
 

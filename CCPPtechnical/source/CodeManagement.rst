@@ -20,12 +20,12 @@ https://github.com/NCAR/ccpp-framework
 
 https://github.com/NCAR/ccpp-physics
 
-Users have read-only access to these repositories and as such cannot accidentally destroy any important (shared) branches of these authoritative repositories. Both CCPP repositories are public (no GitHub account required) and may be used directly to read or create forks. Write permission is generally restricted, however. 
+Users have read-only access to these repositories and as such cannot accidentally destroy any important (shared) branches of these authoritative repositories. Both CCPP repositories are public (no GitHub account required) and may be used directly to read or create forks. Write permission is generally restricted, however.
 
 The following branches are recommended for CCPP developers:
 
 +----------------------------------------+-------------+
-| Repository (GMTB development version)  | Branch name |
+| Repository                             | Branch name |
 +========================================+=============+
 | https://github.com/NCAR/ccpp-physics   | master      |
 +----------------------------------------+-------------+
@@ -95,7 +95,7 @@ The GitHub forking workflow relies on forks (personal copies) of the shared repo
 Note that personal forks are not required until a user wishes to make code contributions. The procedure for how to check out the code laid out below can be followed without having created any forks beforehand.
 
 -----------------------------------
-Checking out the Code 
+Checking out the Code
 -----------------------------------
 Instructions are provided here for the ccpp-physics repository. Similar steps are required for the ccpp-frameworkx repository. The process for checking out the CCPP is described in the following, assuming access via https rather than ssh. We strongly recommend setting up passwordless access to GitHub (see https://help.github.com/categories/authenticating-to-github).
 
@@ -120,11 +120,11 @@ However, if you are making code changes, you must create a local branch.
 .. code-block:: console
 
    git checkout -b my_local_development_branch
- 
+
 Once you are ready to contribute the code to the upstream repository, you need to create a PR (see next section). In order to do so, you first need to create your own fork of this repository (see previous section) and configure your fork as an additional remote destination, which we typically label as origin. For example:
 
 .. code-block:: console
- 
+
    git remote add origin https://github.com/YOUR_GITHUB_USER/ccpp-physics
    git remote update
 
@@ -141,7 +141,7 @@ For each repository/submodule, you can check the configured remote destinations 
    git remote -v show
    git remote update
    git branch -a
- 
+
 As opposed to branches without modifications described in step 3, changes to the upstream repository can be brought into the local branch by pulling them down. For example (where a local branch is checked out):
 
 .. code-block:: console
@@ -156,7 +156,7 @@ As opposed to branches without modifications described in step 3, changes to the
 Committing Changes to your Fork
 ==================================
 Once you have your fork set up to begin code modifications, you should check that the cloned repositories upstream and origin are set correctly:
-		
+
 .. code-block:: console
 
    git remote -v
@@ -243,4 +243,3 @@ Several people (aka CODEOWNERS) are automatically added to the list of reviewers
 Once the PR has been approved, the change is merged to master by one of the code owners. If there are pending conflicts, this means that the code is not up to date with the trunk. To resolve those, pull the target branch from upstream as described above, solve the conflicts and push the changes to the branch on your fork (this also updates the PR).
 
 Note. GitHub offers a draft pull request feature that allows users to push their code to GitHub and create a draft PR. Draft PRs cannot be merged and do not automatically initiate notifications to the CODEOWNERS, but allow users to prepare the PR and flag it as “ready for review” once they feel comfortable with it.
-
