@@ -14,7 +14,7 @@ It is recommended that parameterizations be comprised of the smallest units that
 For example, if a given set of deep and shallow convection schemes will always be called together
 and in a pre-established order, it is acceptable to group them within a single scheme. However, if one
 envisions that the deep and shallow convection schemes may someday operate independently, it is
-recommended to code two separate schemes to allow more flexibility.  
+recommended to code two separate schemes to allow more flexibility.
 
 Some schemes in the CCPP have been implemented using a driver as an entry point. In this context,
 a driver is defined as a wrapper that sits on top of the actual scheme and provides the CCPP entry
@@ -37,7 +37,7 @@ The implementation of a driver is reasonable under the following circumstances:
   provided by the host model to either write out a message and return an error code or call a
   subroutine with or without optional arguments. For example, see ``mp_thompson_hrrr.F90``,
   ``radsw_main.f``, or ``radlw_main.f`` in the ``ccpp-physics/physics`` directory.
- 
+
 * To perform unit conversions or array transformations, such as flipping the vertical direction
   and rearranging the index order, for example, ``cu_gf_driver.F90`` in the ``ccpp-physics/physics``
   directory.
@@ -60,7 +60,7 @@ General Rules
 A CCPP-compliant scheme is in the form of Fortran modules. :ref:`Listing 2.1 <scheme_template>` contains
 the template for a CCPP-compliant scheme (``ccpp/framework/doc/DevelopersGuide/scheme_template.F90``),
 which includes three essential components: the *_init*, *_run*, and *_finalize* subroutines. Each ``.f`` or ``.F90``
-file that contains an entry point(s) for CCPP scheme(s) must be accompanied by a .meta file in the same directory 
+file that contains an entry point(s) for CCPP scheme(s) must be accompanied by a .meta file in the same directory
 as described in :numref:`Section %s <MetadataRules>`
 
 .. _scheme_template:
@@ -84,8 +84,8 @@ More details are found below:
   metadata about the arguments to the scheme(s). For more information, see :numref:`Section %s <MetadataRules>`.
 
 * Non-empty schemes must be preceded by the three lines below. These are markup comments used by Doxygen,
-  the software employed to create the scientific documentation, to insert an external file containing metadata 
-  information (in this case, ``schemename_run.html``) in the documentation. See more on this topic in 
+  the software employed to create the scientific documentation, to insert an external file containing metadata
+  information (in this case, ``schemename_run.html``) in the documentation. See more on this topic in
   :numref:`Section %s <SciDoc>`.
 
 .. code-block:: fortran
@@ -165,7 +165,7 @@ Metadata Rules
    dimensions = (horizontal_dimension,vertical_dimension)
    dimensions = (horizontal_dimension,vertical_dimension_of_ozone_forcing_data,number_of_coefficients_in_ozone_forcing_data)
 
-* :ref:`Listing 2.2 <meta_template>` contains the template for a CCPP-compliant scheme 
+* :ref:`Listing 2.2 <meta_template>` contains the template for a CCPP-compliant scheme
   (``ccpp/framework/doc/DevelopersGuide/scheme_template.meta``),
 
 .. _meta_template:
@@ -184,7 +184,7 @@ Input/output Variable (argument) Rules
   are used in the CCPP (see below for further information).
 
 * A list of available standard names and an example of naming conventions can be found in
-  ``ccpp/framework/doc/DevelopersGuide/CCPP_VARIABLES_${HOST}.pdf``, where ``${HOST}`` is the 
+  ``ccpp/framework/doc/DevelopersGuide/CCPP_VARIABLES_${HOST}.pdf``, where ``${HOST}`` is the
   name of the host model.  Running the CCPP *prebuild* script (described in :numref:`Chapter %s <CCPPPreBuild>`)
   will generate a LaTeX source file that can be compiled to produce
   a PDF file with all variables defined by the host model and requested by the physics schemes.
@@ -238,7 +238,7 @@ Input/output Variable (argument) Rules
      DDTs should be broken into components that could be usable for another scheme of the same type.
 
 * It is preferable to have separate variables for physically-distinct quantities. For example,
-  an array containing various cloud properties should be split into its individual 
+  an array containing various cloud properties should be split into its individual
   physically-distinct components to facilitate generality. An exception to this rule is if
   there is a need to perform the same operation on an array of otherwise physically-distinct
   variables. For example, tracers that undergo vertical diffusion can be combined into one array
@@ -246,8 +246,8 @@ Input/output Variable (argument) Rules
   as a convenience.
 
 * If a scheme is to make use of CCPP’s subcycling capability, the loop counter can be obtained
-  from CCPP as an ``intent(in)`` variable (see :ref:`Listing 6.2 <MandatoryVariables>` for a mandatory
-  list of variables that are provided by the CCPP-Framework and/or the host model for this and other purposes). 
+  from CCPP as an ``intent(in)`` variable (see a :ref:`mandatory list of variables <MandatoryVariables>`
+  that are provided by the CCPP-Framework and/or the host model for this and other purposes).
 
 .. _CodingRules:
 
@@ -293,7 +293,7 @@ Coding Rules
 Additional coding rules are listed under the *Coding Standards* section of the NOAA NGGPS
 Overarching System team document on Code, Data, and Documentation Management for NOAA Environmental
 Modeling System (NEMS) Modeling Applications and Suites (available at
-https://docs.google.com/document/u/1/d/1bjnyJpJ7T3XeW3zCnhRLTL5a3m4_3XIAUeThUPWD9Tg/edit#heading=h.97v79689onyd). 
+https://docs.google.com/document/u/1/d/1bjnyJpJ7T3XeW3zCnhRLTL5a3m4_3XIAUeThUPWD9Tg/edit#heading=h.97v79689onyd).
 
 Parallel Programming Rules
 ==========================
@@ -317,7 +317,7 @@ in a physics scheme:
    * The implementation of reading and writing of data must be scalable to perform
      efficiently from a few to millions of tasks.
    * The MPI communicator must be provided by the host model as an ``intent(in)``
-     argument in the argument list (:ref:`Listing 6.2 <MandatoryVariables>`).
+     argument in the argument list (:ref:`see list of mandatory variables <MandatoryVariables>`).
    * The use of MPI_COMM_WORLD is not allowed.
 
 * Calls to MPI and OpenMP functions, and the import of the MPI and OpenMP libraries,
@@ -344,7 +344,7 @@ in a physics scheme:
      me = 0
    #endif
 
-* For Fortran coarrays, consult with the GMTB helpdesk (gmtb-help@ucar.edu).
+* For Fortran coarrays, consult with the DTC helpdesk (gmtb-help@ucar.edu).
 
 .. include:: ScientificDocRules.inc
 
