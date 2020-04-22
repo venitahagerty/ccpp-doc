@@ -50,22 +50,6 @@ to expose the variables passed between physics and dynamics, and to clarify how 
 is exchanged among parameterizations. During runtime, the CCPP-Framework is responsible for
 communicating the necessary variables between the host model and the parameterizations.
 
-There are multiple options to build the CCPP (see more detail in :numref:`Chapter %s <ConfigBuildOptions>`). For example,
-with the CCPP dynamic build, all the CCPP-compliant parameterizations are compiled into a
-library which is linked to the host model at runtime. Conversely, with the CCPP static
-build, one or more physics suites are compiled into a library and linked to the host model
-when it is compiled. The dynamic build favors flexibility as users can select the
-parameterizations and their order at runtime, while the static build favors performance
-as it provides superior execution time and a smaller memory footprint. The type of build
-defines several differences in the creation and use of the auto-generated code, many of
-which are not exposed to the user.  The differences pertain to the interfaces between
-CCPP-Framework and the physics (physics *caps*) and the host model (host model *cap*), as
-well as in the procedures for calling the physics. In addition, the building option varies
-with choice of the host model. The only CCPP build option supported for use with the
-CCPP Single-Column Model v4.0 or with the
-UFS Medium-Range Weather Application v1.0 is the static build. The dynamic build
-will be phased out in a future release of the CCPP.
-
 The :term:`CCPP-Physics` contains the parameterizations and suites that are used operationally in
 the UFS Atmosphere, as well as parameterizations that are under development for possible
 transition to operations in the future. The CCPP aims to support the broad community

@@ -3,8 +3,8 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-CCPP v4 Technical Documentation
-===============================
+CCPP Technical Documentation v4.0.0
+===================================
 
 .. toctree::
    :numbered:

@@ -9,7 +9,7 @@ Technical Aspects of the CCPP *Prebuild*
 =============================
 
 The :term:`CCPP` *prebuild* script ``ccpp/framework/scripts/ccpp_prebuild.py`` is the central piece of code that
-connects the host model with the :term:`CCPP-Physics` schemes (see :numref:`Figures %s <ccpp_dynamic_build>` and :numref:`%s <ccpp_static_build>`). This script must be run 
+connects the host model with the :term:`CCPP-Physics` schemes (see :numref:`%s <ccpp_static_build>`). This script must be run 
 before compiling the :term:`CCPP-Physics` library and the host model cap. This may be done manually or as part
 of a host model build-time script. In the case of the SCM, ``ccpp_prebuild.py`` must be run manually, as it not
 incorporated in that model’s build system. In the case of ufs-weather-model, ``ccpp_prebuild.py`` can be run manually
