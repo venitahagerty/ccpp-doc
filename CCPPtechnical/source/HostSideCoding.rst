@@ -224,7 +224,7 @@ Array slices can be used by physics schemes that only require certain values fro
 CCPP API 
 ========================================================
 
-The CCPP Application Programming Interface (API) is comprised of a set of clearly defined methods used to communicate variables between the host model and the physics and to run the physics. The bulk of the CCPP API is located in the CCPP-Framework, and is described in file ``ccpp_api.F90``. Some aspects of the API differ between the dynamic and static build. In particular, subroutines ``ccpp_physics_init``, ``ccpp_physics_finalize``, and ``ccpp_physics_run`` (described below) are made public from ``ccpp_api.F90`` for the dynamic build, and are contained in ``ccpp_static_api.F90`` for the static build. Moreover, these subroutines take an additional argument (``suite_name``) for the static build. File ``ccpp_static_api.F90`` is auto-generated when the script ``ccpp_prebuild.py`` is run for the static build.
+The CCPP Application Programming Interface (API) is comprised of a set of clearly defined methods used to communicate variables between the host model and the physics and to run the physics. The bulk of the CCPP API is located in the CCPP-Framework, and is described in file ``ccpp_static_api.F90``.  Subroutines ``ccpp_physics_init``, ``ccpp_physics_finalize``, and ``ccpp_physics_run`` (described below) are contained in ``ccpp_static_api.F90``.  ``ccpp_static_api.F90`` is auto-generated when the script ``ccpp_prebuild.py`` is run for the build.
 
 .. _DataStructureTransfer:
 
@@ -232,9 +232,7 @@ The CCPP Application Programming Interface (API) is comprised of a set of clearl
 Data Structure to Transfer Variables between Dynamics and Physics 
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 
-The roles of ``cdata`` structure in dealing with data exchange are not the same between the dynamic and the static builds of the CCPP. For the dynamic build, the ``cdata`` structure handles the data exchange between the host model and the physics schemes. ``cdata`` is a DDT containing a list of pointers to variables and their metadata and is persistent in memory. 
-
-For both the dynamic and static builds, the ``cdata`` structure is used for holding five variables that must always be available to the physics schemes. These variables are listed in a metadata table in ``ccpp/framework/src/ccpp_types.meta`` (:ref:`Listing 6.3 <MandatoryVariables>`). 
+The ``cdata`` structure is used for holding five variables that must always be available to the physics schemes. These variables are listed in a metadata table in ``ccpp/framework/src/ccpp_types.meta`` (:ref:`Listing 6.3 <MandatoryVariables>`). 
 
 
 * Error flag for handling in CCPP (``errmsg``).
@@ -285,35 +283,11 @@ For both the dynamic and static builds, the ``cdata`` structure is used for hold
 *Listing 6.3: Mandatory variables provided by the CCPP-Framework from* ``ccpp/framework/src/ccpp_types.meta`` *.
 These variables must not be defined by the host model.*
 
-Two of the variables are mandatory and must be passed to every physics scheme: ``errmsg`` and ``errflg``. The variables ``loop_cnt``, ``blk_no``, and ``thrd_no`` can be passed to the schemes if required, but are not mandatory.  For the static build of the CCPP, the ``cdata`` structure is only used to hold these five variables, since the host model variables are directly passed to the physics without the need for an intermediate data structure.
+Two of the variables are mandatory and must be passed to every physics scheme: ``errmsg`` and ``errflg``. The variables ``loop_cnt``, ``blk_no``, and ``thrd_no`` can be passed to the schemes if required, but are not mandatory.  The ``cdata`` structure is only used to hold these five variables, since the host model variables are directly passed to the physics without the need for an intermediate data structure.
 
 Note that ``cdata`` is not restricted to being a scalar but can be a multidimensional array, depending on the needs of the host model. For example, a model that uses a one-dimensional array of blocks for better cache-reuse may require ``cdata`` to be a one-dimensional array of the same size. Another example of a multi-dimensional array of ``cdata`` is in the SCM, which uses a one-dimensional cdata array for N independent columns. 
 
 Due to a restriction in the Fortran language, there are no standard pointers that are generic pointers, such as the C language allows. The CCPP system therefore has an underlying set of pointers in the C language that are used to point to the original data within the host application cap. The user does not see this C data structure, but deals only with the public face of the Fortran ``cdata`` DDT. The type ``ccpp_t`` is defined in ``ccpp/framework/src/ccpp_types.meta`` and declared in ``ccpp/framework/src/ccpp_types.F90``.
-
-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Adding and Retrieving Information from cdata (dynamic build option)
-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-
-Subroutines ``ccpp_field_add`` and ``ccpp_field_get`` are part of the CCPP-Framework and are used (in the dynamic build only) to load and retrieve information to and from ``cdata``. The calls to ``ccpp_field_add`` are auto-generated by the script ``ccpp_prebuild.py`` and inserted onto the host model code via include files (i.e. ``FV3/CCPP_layer/ccpp_fields_slow_physics.inc``) before it is compiled.
-
-A typical call to ``ccpp_field_add`` is below, where the first argument is the instance of ``cdata`` to which the information should be added, the second argument is the ``standard_name`` of the variable, the third argument is the corresponding host model variable, the fourth argument is an error flag, the fifth argument is the units of the variable, and the last (optional) argument is the position within ``cdata`` in which the variable is expected to be stored.
-
-.. code-block:: fortran
-
- call ccpp_field_add(cdata, 'y_wind_updated_by_physics', GFS_Data(cdata%blk_no)%Stateout%gv0, ierr=ierr, units='m s-1', index=886)
-
-For DDTs, the interface to ``CCPP_field_add`` is slightly different:
-
-.. code-block:: fortran
-
-  call ccpp_field_add(cdata, 'GFS_cldprop_type_instance', '', c_loc(GFS_Data(cdata%blk_no)%Cldprop), ierr=ierr, index=1)
-
-where the first argument and second arguments bear the same meaning as in the first example, the third argument is the units (can be left empty or set to “DDT”), the fourth argument is the C pointer to the variable in memory, the fifth argument is an error flag, and the last (optional) argument is the position within ``cdata`` as in the first example.
-
-Each new variable added to ``cdata`` is always placed at the next free position, and a check is performed to confirm that this position corresponds to the expected one, which in this example is 886.  A mismatch will occur if a developer manually adds a call to ``ccpp_field_add``, in which case a costly binary search is applied every time a variable is retrieved from memory. Adding calls manually is not recommended as all calls to ``ccpp_fields_add`` should be auto-generated.
-
-The individual physics *caps* used in the dynamic build, which are auto-generated using the script ``ccpp_prebuild.py``, contain calls to ``ccpp_field_get`` to pull data from the ``cdata`` DDT as a Fortran pointer to a variable that will be passed to the individual physics scheme. 
 
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Initializing and Finalizing the CCPP
@@ -362,13 +336,7 @@ If a specific data instance was used in a call to ``ccpp_init``, as in the above
 Running the physics
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 
-The physics is invoked by calling subroutine ``ccpp_physics_run``. This subroutine is part of the CCPP API and is included with the CCPP-Framework (for the dynamic build) or auto-generated (for the static build). This subroutine is capable of executing the physics with varying granularity, that is, a single scheme (dynamic build only), a single group, or an entire suite can be run with a single subroutine call. Typical calls to ``ccpp_physics_run`` are below, where ``scheme_name`` and ``group_name`` are optional and mutually exclusive (dynamic build), and where ``suite_name`` is mandatory and ``group_name`` is optional (static build).
-
-Dynamic build:
-
-.. code-block:: fortran
-
- call ccpp_physics_run(cdata, [group_name], [scheme_name], ierr=ierr)
+The physics is invoked by calling subroutine ``ccpp_physics_run``. This subroutine is part of the CCPP API and is auto-generated. This subroutine is capable of executing the physics with varying granularity, that is, a single group, or an entire suite can be run with a single subroutine call. Typical calls to ``ccpp_physics_run`` are below,where ``suite_name`` is mandatory and ``group_name`` is optional.
 
 Static build:
 
@@ -382,7 +350,7 @@ Initializing and Finalizing the Physics
 
 Many (but not all) physical parameterizations need to be initialized, which includes functions such as reading lookup tables, reading input datasets, computing derived quantities, broadcasting information to all MPI ranks, etc. Initialization procedures are typically done for the entire domain, that is, they are not subdivided by blocks. Similarly, many (but not all) parameterizations need to be finalized, which includes functions such as deallocating variables, resetting flags from *initialized* to *non-initiaIized*, etc. Initialization and finalization functions are each performed once per run, before the first call to the physics and after the last call to the physics, respectively.
 
-The initialization and finalization can be invoked for a single parameterization (only in dynamic build), for a single group, or for the entire suite. In all cases, subroutines ``ccpp_physics_init`` and ``ccpp_physics_finalize`` are used and the arguments passed to those subroutines determine the type of initialization.
+The initialization and finalization can be invoked for a single group, or for the entire suite. In both cases, subroutines ``ccpp_physics_init`` and ``ccpp_physics_finalize`` are used and the arguments passed to those subroutines determine the type of initialization.
 
 These subroutines should not be confused with ``ccpp_init`` and ``ccpp_finalize``, which were explained previously.
 
@@ -390,13 +358,7 @@ These subroutines should not be confused with ``ccpp_init`` and ``ccpp_finalize`
 Subroutine ``ccpp_physics_init``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-This subroutine is part of the CCPP API and is included with the CCPP-Framework (for the dynamic build) or auto-generated (for the static build). It cannot contain thread-dependent information but can have block-dependent information. Typical calls to ``ccpp_physics_init`` are below.
-
-Dynamic build:
-
-.. code-block:: fortran
-
- call ccpp_physics_init(cdata, [group_name], [scheme_name], ierr=ierr)
+This subroutine is part of the CCPP API and is auto-generated. It cannot contain thread-dependent information but can have block-dependent information. Typical calls to ``ccpp_physics_init`` are below.
 
 Static build:
 
@@ -408,13 +370,7 @@ Static build:
 Subroutine ``ccpp_physics_finalize``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-This subroutine is part of the CCPP API and is included with the CCPP-Framework (for the dynamic build) or auto-generated (for the static build). Typical calls to ``ccpp_physics_finalize`` are below.
-
-Dynamic build:
-
-.. code-block:: fortran
-
- call ccpp_physics_finalize(cdata, [group_name], [scheme_name], ierr=ierr)
+This subroutine is part of the CCPP API and is auto-generated. Typical calls to ``ccpp_physics_finalize`` are below.
 
 Static build:
 
@@ -435,38 +391,22 @@ The purpose of the host model *cap* is to abstract away the communication betwee
 
 * Allocating the ``cdata`` structure(s)					
 
-  * For the dynamic build, the ``cdata`` structure handles the data exchange between the host model and the physics schemes, while for the static build, ``cdata`` is utilized in a reduced capacity. 
-
 
 * Calling the suite initialization subroutine				
 
   * The suite must be initialized using ``ccpp_init``.
 
+.. warning::
+   Is this note still necessary?
+
+    .. note:: The CCPP-Framework supports splitting physics schemes into different sets that are used in different parts of the host model. An example is the separation between slow and fast physics processes for the GFDL microphysics implemented in the UFS Atmosphere: while the slow physics are called as part of the usual model physics, the fast physics are integrated in the dynamical core. The separation of physics into different sets is determined in the CCPP *prebuild* configuration for each host model (see :numref:`Figure %s <ccpp_prebuild>`), which allows to create multiple include files (e.g. ``ccpp_fields_slow_physics.inc`` and ``ccpp_fields_fast_physics.inc`` that can be used by different ``cdata`` structures in different parts of the model). This is a highly advanced feature and developers seeking to take further advantage of it should consult with GMTB first.
+
 
 * Populating the ``cdata`` structure(s)
 
-  * For the dynamic build, each variable required by the physics schemes must be added to the ``cdata`` 
-    structure (or to each element of a multi-dimensional ``cdata``) on the host model side using subroutine
-    ``ccpp_field_add``. This is an automated task accomplished by inserting a preprocessor directive
-
-    .. code-block:: fortran
-
-       #include ccpp_modules.inc
-
-    at the top of the cap (before implicit none) to load the required modules and a second preprocessor directive
-
-    .. code-block:: fortran
-
-        #include ccpp_fields.inc
-
-    after the ``cdata`` variable and the variables required by the physics schemes are allocated and after the
-    call to ``ccpp_init`` for this ``cdata`` variable. For the static build, this step can be skipped because
-    the autogenerated *caps* for the physics (groups and suite *caps*) are automatically given memory access to the 
-    host model variables and they can be used directly, without the need for a data structure containing pointers
-    to the actual variables (which is what ``cdata`` is).
-					
-    .. note:: The CCPP-Framework supports splitting physics schemes into different sets that are used in different parts of the host model. An example is the separation between slow and fast physics processes for the GFDL microphysics implemented in the UFS Atmosphere: while the slow physics are called as part of the usual model physics, the fast physics are integrated in the dynamical core. The separation of physics into different sets is determined in the CCPP *prebuild* configuration for each host model (see :numref:`Chapter %s <DynamicBuildCaps>`, and :numref:`Figure %s <ccpp_prebuild>`), which allows to create multiple include files (e.g. ``ccpp_fields_slow_physics.inc`` and ``ccpp_fields_fast_physics.inc`` that can be used by different ``cdata`` structures in different parts of the model). This is a highly advanced feature and developers seeking to take further advantage of it should consult with GMTB first.
-
+  * The autogenerated caps for the physics (groups and suite caps) are automatically given memory access to
+    the host model variables and they can be used directly, without the need for a data structure containing
+    pointers to the actual variables (which is what cdata is).
 
 * Providing interfaces to call the CCPP
 
@@ -551,7 +491,7 @@ The following sections describe two implementations of host model caps to serve 
 SCM Host Cap
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 
-The only build type supported for the SCM v4 is the static build. The cap functions are mainly implemented in:
+The cap functions for the SCM v4 are mainly implemented in:
 
 ``gmtb-scm/scm/src/gmtb_scm.F90``
 
@@ -624,31 +564,20 @@ The host model *cap* is responsible for:
 UFS Atmosphere Host Cap
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 
-For the UFS Atmosphere, there are slightly different versions of the host cap implementation depending on the desired build type (dynamic or static). Only the static build is publicly supported at this time, as the dynamic build will be deprecated soon. As discussed in :numref:`Chapter %s <CCPPPreBuild>`, these modes are controlled via appropriate strings included in the MAKEOPTS build-time argument. Within the source code, the three modes are executed within appropriate pre-processor directive blocks:
 
-For any build that uses CCPP (dynamic orstatic):
+.. warning::
+   Section need some serious help.  It is mostly for the dynamic build, but with tidbits
+   about the static build.  I took a stab at it anyway.
+
+This section describes how the UFS Atmosphere host cap is implemented for the build.
+For the build that uses CCPP:
 
 .. code-block:: fortran
 
  #ifdef CCPP
  #endif
 
-For static (often nested within ``#ifdef CCPP``):
-
-.. code-block:: fortran
-
- #ifdef STATIC
- #endif
-
-The following text describes how the host cap functions listed above are implemented for the dynamic build only. Where the other modes of operation differ in their implementation, it will be called out.
-
 * Allocating memory for variables needed by physics
-
- * Within the ``atmos_model_init`` subroutine of ``atmos_model.F90``, the following statement is executed
-
-  ``allocate(IPD_Data)``
-
-  ``IPD_Data`` is of ``IPD_data_type``, which is defined in ``IPD_typedefs.F90`` as a synonym for ``GFS_data_type`` defined in ``GFS_typedefs.F90``. This data type contains GFS-related DDTs (``GFS_statein_type``, ``GFS_stateout_type``, ``GFS_sfcprop_type``, etc.) as sub-types, which are defined in ``GFS_typedefs.F90``.
 
 * Allocating the ``cdata`` structures
 
@@ -663,8 +592,6 @@ The following text describes how the host cap functions listed above are impleme
   * For ``cdata_domain`` and ``cdata_block`` used in the rest of the physics, the ‘init’ step of the ``CCPP_step`` subroutine in ``CCPP_driver.F90`` is called. Within that subroutine, ``ccpp_init`` is called once to set up ``cdata_domain`` and within a loop for every block/thread combination to set up the components of the ``cdata_block`` array. Note: as mentioned in the CCPP API :numref:`Section %s <CCPP_API>`, when fast physics is used, the SDF has already been read and the suite is already setup, so this step is skipped and the suite information is simply copied from what was already initialized (``cdata_tile``) using the ``cdata_target`` optional argument.
 
 * Populating the ``cdata`` structures
-
- * When the dynamic mode is used, the ``cdata`` structures are filled with pointers to variables that are used by physics and whose memory is allocated by the host model. This is done using ``ccpp_field_add`` statements contained in the autogenerated include files. For the fast physics, this include file is named ``ccpp_fields_fast_physics.inc`` and is placed after the call to ``ccpp_init`` for ``cdata_tile`` in the ``atmosphere_init`` subroutine of ``atmosphere.F90``. For populating ``cdata_domain`` and ``cdata_block``, IPD data types are initialized in the ``atmos_model_init`` subroutine of ``atmos_model.F90``. The ``Init_parm`` DDT is filled directly in this routine and ``IPD_initialize`` (pointing to ``GFS_initialize`` and for populating diagnostics and restart DDTs) is called in order to fill the GFS DDTs that are used in the physics. Once the IPD data types are filled, they are passed to the ‘init’ step of the ``CCPP_step`` subroutine in ``CCPP_driver.F90`` where ``ccpp_field_add`` statements are included in ``ccpp_fields_slow_physics.inc`` after the calls to ``ccpp_init`` for the ``cdata_domain`` and ``cdata_block`` containers.
 
  * Note: for the static mode, filling of the ``cdata`` containers with pointers to physics variables is not necessary. This is because the autogenerated *caps* for the physics groups (that contain calls to the member schemes) can fill in the argument variables without having to retrieve pointers to the actual data. This is possible because the metadata about host model variables (that are known at ccpp_prebuild time) contain all the information needed about the location (DDTs and local names) to pass into the autogenerated *caps* for their direct use.
 
