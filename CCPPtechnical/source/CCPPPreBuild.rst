@@ -38,7 +38,7 @@ on the host model side and from the individual physics schemes (``.meta`` files;
 
 .. _ccpp_prebuild:
 
-.. figure:: _static/ccpp_prebuild.png
+.. figure:: _static/ccpp_prebuild_static_only.png
    :scale: 50 %
    :alt: map to buried treasure
    :align: center
