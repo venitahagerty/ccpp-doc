@@ -130,6 +130,10 @@ As alluded to above, the ``ccpp_prebuild.py`` script has five command line optio
  |  ``--debug``            enable debugging output
  |  ``--suites`` SUITES    SDF(s) to use (comma-separated, without path)
  
+.. note::
+
+   If the --suites option is omitted, all suites will be compiled into the executable.
+
 An example invocation of running the script (called from the host model’s top level directory) would be:
 
 .. code-block:: console
