@@ -52,6 +52,12 @@ The *prebuild* step will produce the following files for the UFS Atmosphere:
 
    ccpp/physics/CCPP_SCHEMES.{cmake,mk}
 
+* List of CCPP types:
+
+.. code-block:: console
+
+   ccpp/physics/CCPP_TYPEDEFS.{cmake,mk}
+
 * List of variables provided by host model:
 
 .. code-block:: console

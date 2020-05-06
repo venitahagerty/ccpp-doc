@@ -31,7 +31,7 @@ The basic requirements for building and running the CCPP and SCM bundle are list
         * pgcc 17.7 and 17.9
     * cmake versions 2.8.12.1, 2.8.12.2, and 3.6.2
     * netCDF with HDF5, ZLIB and SZIP versions 4.3.0, 4.4.0, 4.4.1.1, 4.5.0, 4.6.1, and 4.6.3 (not 3.x)
-    * Python versions 2.7.5, 2.7.9, and 2.7.13 (not 3.x)
+    * Python versions 2.7.5, 2.7.9, 2.7.13, and 3.x
     * Libxml2 versions 2.2 and 2.9.7 (not 2.9.9)
 
 Because these tools and libraries are typically the purview of system administrators to install and maintain, they are considered part of the basic system requirements.

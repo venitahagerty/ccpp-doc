@@ -336,9 +336,7 @@ If a specific data instance was used in a call to ``ccpp_init``, as in the above
 Running the physics
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 
-The physics is invoked by calling subroutine ``ccpp_physics_run``. This subroutine is part of the CCPP API and is auto-generated. This subroutine is capable of executing the physics with varying granularity, that is, a single group, or an entire suite can be run with a single subroutine call. Typical calls to ``ccpp_physics_run`` are below,where ``suite_name`` is mandatory and ``group_name`` is optional.
-
-Static build:
+The physics is invoked by calling subroutine ``ccpp_physics_run``. This subroutine is part of the CCPP API and is auto-generated. This subroutine is capable of executing the physics with varying granularity, that is, a single group, or an entire suite can be run with a single subroutine call. Typical calls to ``ccpp_physics_run`` are below,where ``suite_name`` is mandatory and ``group_name`` is optional:
 
 .. code-block:: fortran
 
@@ -358,9 +356,7 @@ These subroutines should not be confused with ``ccpp_init`` and ``ccpp_finalize`
 Subroutine ``ccpp_physics_init``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-This subroutine is part of the CCPP API and is auto-generated. It cannot contain thread-dependent information but can have block-dependent information. Typical calls to ``ccpp_physics_init`` are below.
-
-Static build:
+This subroutine is part of the CCPP API and is auto-generated. It cannot contain thread-dependent information but can have block-dependent information. A typical call to ``ccpp_physics_init`` is:
 
 .. code-block:: fortran
 
@@ -370,9 +366,7 @@ Static build:
 Subroutine ``ccpp_physics_finalize``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-This subroutine is part of the CCPP API and is auto-generated. Typical calls to ``ccpp_physics_finalize`` are below.
-
-Static build:
+This subroutine is part of the CCPP API and is auto-generated. A typical call to ``ccpp_physics_finalize`` is:
 
 .. code-block:: fortran
 
@@ -395,12 +389,6 @@ The purpose of the host model *cap* is to abstract away the communication betwee
 * Calling the suite initialization subroutine				
 
   * The suite must be initialized using ``ccpp_init``.
-
-.. warning::
-   Is this note still necessary?
-
-    .. note:: The CCPP-Framework supports splitting physics schemes into different sets that are used in different parts of the host model. An example is the separation between slow and fast physics processes for the GFDL microphysics implemented in the UFS Atmosphere: while the slow physics are called as part of the usual model physics, the fast physics are integrated in the dynamical core. The separation of physics into different sets is determined in the CCPP *prebuild* configuration for each host model (see :numref:`Figure %s <ccpp_prebuild>`), which allows to create multiple include files (e.g. ``ccpp_fields_slow_physics.inc`` and ``ccpp_fields_fast_physics.inc`` that can be used by different ``cdata`` structures in different parts of the model). This is a highly advanced feature and developers seeking to take further advantage of it should consult with GMTB first.
-
 
 * Populating the ``cdata`` structure(s)
 
@@ -538,10 +526,6 @@ The host model *cap* is responsible for:
 
  * call ``physics%associate()``: to associate pointers in physics DDT with targets in ``scm_state``, which contains variables that are modified by the SCM “dycore” (i.e. forcing).
 
- * Actual ``cdata`` fill in through ``ccpp_field_add`` calls:
-
-  ``#include “ccpp_fields.inc”``
-
   This include file is auto-generated from ``ccpp/scripts/ccpp_prebuild.py``, which parses tables in ``gmtb_scm_type_defs.f90``.
 
 * Providing interfaces to call the CCPP
@@ -564,11 +548,6 @@ The host model *cap* is responsible for:
 UFS Atmosphere Host Cap
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 
-
-.. warning::
-   Section need some serious help.  It is mostly for the dynamic build, but with tidbits
-   about the static build.  I took a stab at it anyway.
-
 This section describes how the UFS Atmosphere host cap is implemented for the build.
 For the build that uses CCPP:
 
@@ -581,7 +560,7 @@ For the build that uses CCPP:
 
 * Allocating the ``cdata`` structures
 
- * For the current implementation of the UFS Atmosphere, which uses a subset of fast physics processes tightly coupled to the dynamical core, three instances of ``cdata`` exist within the host model: ``cdata_tile`` to hold data for the fast physics, ``cdata_domain`` to hold data needed for all UFS Atmosphere blocks for the slow physics, and ``cdata_block``, an array of ``cdata`` DDTs with dimensions of (``number of blocks``, ``number of threads``) to contain data for individual block/thread combinations for the slow physics. All are defined as module-level variables in the ``CCPP_data module`` of ``CCPP_data.F90``. The ``cdata_block`` array is allocated (since the number of blocks and threads is unknown at compile-time) as part of the ``‘init’`` step of the ``CCPP_step subroutine`` in ``CCPP_driver.F90``. Note: Although the ``cdata`` containers are not used to hold the pointers to the physics variables for the static mode, they are still used to hold other CCPP-related information for that mode.
+ * For the current implementation of the UFS Atmosphere, which uses a subset of fast physics processes tightly coupled to the dynamical core, three instances of ``cdata`` exist within the host model: ``cdata_tile`` to hold data for the fast physics, ``cdata_domain`` to hold data needed for all UFS Atmosphere blocks for the slow physics, and ``cdata_block``, an array of ``cdata`` DDTs with dimensions of (``number of blocks``, ``number of threads``) to contain data for individual block/thread combinations for the slow physics. All are defined as module-level variables in the ``CCPP_data module`` of ``CCPP_data.F90``. The ``cdata_block`` array is allocated (since the number of blocks and threads is unknown at compile-time) as part of the ``‘init’`` step of the ``CCPP_step subroutine`` in ``CCPP_driver.F90``. Note: Although the ``cdata`` containers are not used to hold the pointers to the physics variables, they are still used to hold other CCPP-related information.
 
 * Calling the suite initialization subroutine
 
@@ -591,26 +570,16 @@ For the build that uses CCPP:
 
   * For ``cdata_domain`` and ``cdata_block`` used in the rest of the physics, the ‘init’ step of the ``CCPP_step`` subroutine in ``CCPP_driver.F90`` is called. Within that subroutine, ``ccpp_init`` is called once to set up ``cdata_domain`` and within a loop for every block/thread combination to set up the components of the ``cdata_block`` array. Note: as mentioned in the CCPP API :numref:`Section %s <CCPP_API>`, when fast physics is used, the SDF has already been read and the suite is already setup, so this step is skipped and the suite information is simply copied from what was already initialized (``cdata_tile``) using the ``cdata_target`` optional argument.
 
-* Populating the ``cdata`` structures
-
- * Note: for the static mode, filling of the ``cdata`` containers with pointers to physics variables is not necessary. This is because the autogenerated *caps* for the physics groups (that contain calls to the member schemes) can fill in the argument variables without having to retrieve pointers to the actual data. This is possible because the metadata about host model variables (that are known at ccpp_prebuild time) contain all the information needed about the location (DDTs and local names) to pass into the autogenerated *caps* for their direct use.
-
 * Providing interfaces to call the CCPP
 
  * Calling ``ccpp_physics_init``
 
-  * In order to call the initialization routines for the physics, ``ccpp_physics_init`` is called in the ``atmosphere_init`` subroutine of ``atmosphere.F90`` after the included ``ccpp_field_add`` calls for the fast physics. For the slow physics, the ‘physics_init’ step of the ``CCPP_step`` subroutine in ``CCPP_driver.F90`` is invoked immediately after the call to the ‘init’ step in the ``atmos_model_init`` subroutine of ``atmos_model.F90``. Within the ‘physics_init’ step,  calls to ``ccpp_physics_init`` for all blocks are executed.
-
-  * Note: for the static mode, ``ccpp_physics_init`` is autogenerated and contained within ``ccpp_static_api.F90``. As mentioned in the :numref:`CCPP API Section %s <CCPP_API>` , it can be called to initialize groups as defined in the SDFs or the suite as a whole, depending on whether a group name is passed in as an optional argument.
+  * ``ccpp_physics_init`` is autogenerated and contained within ``ccpp_static_api.F90``. As mentioned in the :numref:`CCPP API Section %s <CCPP_API>` , it can be called to initialize groups as defined in the SDFs or the suite as a whole, depending on whether a group name is passed in as an optional argument.
 
  * Calling ``ccpp_physics_run``
 
-  * For actually running the physics within the FV3 time loop, ``ccpp_physics_run`` is called from a couple of different places in the FV3 source code. For the fast physics, ``ccpp_physics_run`` is called for the fast physics group from the ``Lagrangian_to_Eulerian`` subroutine of ``fv_mapz.F90`` within the dynamical core. For the rest of the physics, the subroutine ``update_atmos_radiation_physics`` in ``atmos_model.F90`` is called as part of the FV3 time loop. Within that subroutine, the various physics steps (defined as groups within a SDF) are called one after the other. The ‘time_vary’ step of the ``CCPP_step`` subroutine within ``CCPP_driver.F90`` is called. Since this step is called over the entire domain, the call to ``ccpp_physics_run`` is done once using ``cdata_domain`` and the time_vary group.  The ‘radiation’, ‘physics’, and ‘stochastics’ steps of the ``CCPP_step`` subroutine are called next. For each of these steps within ``CCPP_step``, there is a loop over the number of blocks for calling ``ccpp_physics_run`` with the appropriate group and component of the ``cdata_block`` array for the current block and thread.
-
-  * Note: The execution of calls to ``ccpp_physics_run`` is different for the three build types. For the static mode, ``ccpp_physics_run`` is called from ``ccpp_static_api.F90`` and contains autogenerated caps for groups and the suite as a whole as defined in the SDFs. 
+  * ``ccpp_physics_run`` is called from ``ccpp_static_api.F90`` and contains autogenerated caps for groups and the suite as a whole as defined in the SDFs. 
 
  * calling ``ccpp_physics_finalize`` and ``ccpp_finalize``
 
-  * At the conclusion of the FV3 time loop, calls to finalize the physics are executed. For the fast physics, ``ccpp_physics_finalize`` is called from the ``atmosphere_end`` subroutine of ``atmosphere.F90``. For the rest of the physics, the ‘finalize’ step of the ``CCPP_step`` subroutine in ``CCPP_driver.F90`` is called from the ``atmos_model_end`` subroutine in ``atmos_model.F90``. Within the ‘finalize’ step of ``CCPP_step``, calls for ``ccpp_physics_finalize`` and ``ccpp_finalize`` are executed for every thread and block for ``cdata_block``. Afterward, ``ccpp_finalize`` is called for ``cdata_domain`` and lastly, ``cdata_tile``. (That is, the calls to ``ccpp_finalize`` are in reverse order than the calls to ``ccpp_initialize``.) In addition, ``cdata_block`` is also deallocated in the ‘finalize’ step of ``CCPP_step``.
-
-  * Note: for the static mode, ``ccpp_physics_finalize`` is autogenerated and contained within ``ccpp_static_api.F90``. As mentioned in the :numref:`CCPP API Section %s <CCPP_API>`, it can be called to finalize groups as defined in the current SDFs or the suite as a whole, depending on whether a group name is passed in as an optional argument.
+  * ``ccpp_physics_finalize`` is autogenerated and contained within ``ccpp_static_api.F90``. As mentioned in the :numref:`CCPP API Section %s <CCPP_API>`, it can be called to finalize groups as defined in the current SDFs or the suite as a whole, depending on whether a group name is passed in as an optional argument.

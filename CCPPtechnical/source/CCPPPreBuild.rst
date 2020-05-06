@@ -94,8 +94,6 @@ To connect the :term:`CCPP` with a host model ``XYZ``, a Python-based configurat
    #’subroutine_name_1’ : ’all’, #’subroutine_name_2’ : ’none’, #’subroutine_name_3’ : [ ’var1’, ’var2’],}
    # Names of Fortran include files in the host model cap (do not change);
    # both files will be written to the directory of each target file
-   MODULE_INCLUDE_FILE = 'ccpp_modules.inc'
-   FIELDS_INCLUDE_FILE = 'ccpp_fields.inc'
    # Directory where to write static API to
    STATIC_API_DIR = 'scm/src'
 
