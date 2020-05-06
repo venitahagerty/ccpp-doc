@@ -548,7 +548,7 @@ The host model *cap* is responsible for:
 UFS Atmosphere Host Cap
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 
-This section describes how host cap is implemented for the the UFS Atmosphere build.
+This section describes how host cap is implemented for the UFS Atmosphere build.
 For the build that uses CCPP:
 
 .. code-block:: fortran
