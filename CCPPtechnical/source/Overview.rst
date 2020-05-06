@@ -4,10 +4,6 @@
 CCPP Overview
 *************************
 
-.. note:: The information in this document corresponds to the CCPP v4 release.
-   To obtain the latest available Technical Documentation go to
-   https://ccpp-techdoc.readthedocs.io/en/latest/.
-
 Ideas for this project originated within the Earth System Prediction Capability (ESPC)
 physics interoperability group, which has representatives from the US National Center
 for Atmospheric Research (NCAR), the Navy, National Oceanic and Atmospheric Administration

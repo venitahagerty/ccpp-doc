@@ -293,7 +293,7 @@ Due to a restriction in the Fortran language, there are no standard pointers tha
 Initializing and Finalizing the CCPP
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 
-At the beginning of each run, the ``cdata`` structure needs to be set up. Similarly, at the end of each run, it needs to be terminated. This is done with subroutines ``ccpp_init`` and ``ccpp_finalize``. These subroutines should not be confused with ``ccpp_physics_init`` and ``ccpp_physics_finalize``, which were described in :numref:`Chapter %s <AutoGenPhysCaps>`.
+At the beginning of each run, the ``cdata`` structure needs to be set up. Similarly, at the end of each run, it needs to be terminated. This is done with subroutines ``ccpp_init`` and ``ccpp_finalize``. These subroutines should not be confused with ``ccpp_physics_init`` and ``ccpp_physics_finalize``, which were described in :numref:`Chapter %s <SuiteGroupCaps>`.
 
 Note that optional arguments are denoted with square brackets.
 
@@ -479,7 +479,7 @@ The following sections describe two implementations of host model caps to serve 
 SCM Host Cap
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 
-The cap functions for the SCM v4 are mainly implemented in:
+The cap functions for the SCM are mainly implemented in:
 
 ``gmtb-scm/scm/src/gmtb_scm.F90``
 
@@ -548,7 +548,7 @@ The host model *cap* is responsible for:
 UFS Atmosphere Host Cap
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 
-This section describes how the UFS Atmosphere host cap is implemented for the build.
+This section describes how host cap is implemented for the the UFS Atmosphere build.
 For the build that uses CCPP:
 
 .. code-block:: fortran
