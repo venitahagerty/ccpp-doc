@@ -19,8 +19,8 @@ sys.path.insert(0, os.path.abspath('.'))
 
 # -- Project information -----------------------------------------------------
 
-project = 'CCPP v4 Technical'
-copyright = '2019 '
+project = 'CCPP Technical'
+copyright = '2020 '
 author = 'J. Schramm, L. Bernardet, L. Carson, \\\ G. Firl, D. Heinzeller, L. Pan, and M. Zhang'
 
 # The short X.Y version
@@ -140,14 +140,14 @@ latex_elements = {
     # Latex figure (float) alignment
     #
     # 'figure_align': 'htbp',
-    #  'maketitle': r'\newcommand\sphinxbackoftitlepage{For referencing this document please use: \newline \break Schramm, J., L. Bernardet, L. Carson, G. Firl, D. Heinzeller, L. Pan, and M. Zhang, 2019. CCPP Technical Documentation Release v4.0.0. Available at https://dtcenter.org/GMTB/v4.0/ccpp\_tech\_guide.pdf.}\sphinxmaketitle'
+      'maketitle': r'\newcommand\sphinxbackoftitlepage{For referencing this document please use: \newline \break Schramm, J., L. Bernardet, L. Carson, G. Firl, D. Heinzeller, L. Pan, and M. Zhang, 2020. CCPP Technical Documentation Release v4.0.0. Available at https://dtcenter.org/GMTB/v4.0/ccpp\_tech\_guidev4.0.pdf.}\sphinxmaketitle'
 }
 
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'CCPPtechnical.tex', 'v4 CCPP Technical Documentation',
+    (master_doc, 'CCPPtechnical.tex', 'CCPP Technical Documentation',
      author,'manual'),
 ]
 
@@ -157,7 +157,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'CCPPtechnical', 'CCPP v4 Technical Documentation',
+    (master_doc, 'CCPPtechnical', 'CCPP Technical Documentation',
      [author], 1)
 ]
 
@@ -168,7 +168,7 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'CCPPtechnical', 'CCPP v4 Technical Documentation',
+    (master_doc, 'CCPPtechnical', 'CCPP Technical Documentation',
      author, 'CCPPtechnical', 'One line description of project.',
      'Miscellaneous'),
 ]
