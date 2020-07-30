@@ -161,7 +161,7 @@ Outputting Tendencies
 UFS
 ^^^
 
-When ``ldiag3d`` and/or ``qdiag3d`` are set to true, the tendencies described in
+When ``ldiag3d`` and ``qdiag3d`` are set to true, the tendencies described in
 :numref:`Table %s <avail_tendencies>` are prepared for output. Finer control over which 
 variables will actually be output is available through the diag table. The user must edit
 the diag table and enter new lines at the end with the variables desired in the output. For
@@ -276,7 +276,8 @@ two files within the physics (see also example in :numref:`Section %s <CodeModEx
 
 * A CCPP entrypoint scheme
    * Add array(s) and its/their dimension(s) to the list of subroutine arguments
-   * Declare and allocate array(s)
+   * Declare array(s) with appropriate intent and dimension(s).  Note that array(s) do not
+     need to be allocated by the developer.  This is done automatically in ``GFS_typedefs.F90``.
    * Populate array(s) with desirable diagnostic for output
 * The file with metadata for modified scheme(s)
    * Add entries for the array(s) and its/their dimension(s) and provide metadata
