@@ -45,39 +45,42 @@ Descriptions of the CCPP-compliant debugging schemes for the UFS
 * ``GFS_diagtoscreen`` 
     This scheme loops over all blocks for all GFS types that are persistent from one time step to the next (except ``GFS_control``) and prints data for almost all constituents. The call signature and rough outline for this scheme is:
 
-  .. code-block:: console
+      .. code-block:: console
 
-        subroutine GFS_diagtoscreen_run (Model, Statein, Stateout, Sfcprop, Coupling,     &
+            subroutine GFS_diagtoscreen_run (Model, Statein, Stateout, Sfcprop, Coupling,     &
                                          Grid, Tbd, Cldprop, Radtend, Diag, Interstitial, &
                                          nthreads, blkno, errmsg, errflg)
-         ! Model / Control - only timestep information for now
-         call print_var(mpirank, omprank, blkno, Grid%xlat_d, Grid%xlon_d, 'Model%kdt', Model%kdt)
-         ! Sfcprop
-         call print_var(mpirank, omprank, blkno, Grid%xlat_d, Grid%xlon_d, 'Sfcprop%slmsk', Sfcprop%slmsk)
-         ...
-         ! Radtend
-         call print_var(mpirank, omprank, blkno, Grid%xlat_d, Grid%xlon_d, 'Radtend%sfcfsw%upfxc', Radtend%sfcfsw(:)%upfxc)
-         ...
-         !Tbd
-         call print_var(mpirank, omprank, blkno, Grid%xlat_d, Grid%xlon_d, 'Tbd%icsdsw', Tbd%icsdsw)
-         ...
-         ! Diag
-         call print_var(mpirank, omprank, blkno, Grid%xlat_d, Grid%xlon_d, 'Diag%srunoff', Diag%srunoff)
-         ...
-         ! Statein
-         call print_var(mpirank, omprank, blkno, Grid%xlat_d, Grid%xlon_d, 'Statein%phii', Statein%phii)
-         ! Stateout
-         call print_var(mpirank, omprank, blkno, Grid%xlat_d, Grid%xlon_d, 'Stateout%gu0', Stateout%gu0)
-         ...
-         ! Coupling
-         call print_var(mpirank, omprank, blkno, Grid%xlat_d, Grid%xlon_d, 'Coupling%nirbmdi', Coupling%nirbmdi)
-         ...
-         ! Grid
-         call print_var(mpirank, omprank, blkno, Grid%xlat_d, Grid%xlon_d, 'Grid%xlon', Grid%xlon)
-         ...
-         end subroutine GFS_diagtoscreen_run
+             ! Model / Control - only timestep information for now
+            call print_var(mpirank, omprank, blkno, Grid%xlat_d, Grid%xlon_d, 'Model%kdt', Model%kdt)
+            ! Sfcprop
+            call print_var(mpirank, omprank, blkno, Grid%xlat_d, Grid%xlon_d, 'Sfcprop%slmsk', Sfcprop%slmsk)
+            ...
+            ! Radtend
+            call print_var(mpirank, omprank, blkno, Grid%xlat_d, Grid%xlon_d, 'Radtend%sfcfsw%upfxc', Radtend%sfcfsw(:)%upfxc)
+            ...
+            !Tbd
+            call print_var(mpirank, omprank, blkno, Grid%xlat_d, Grid%xlon_d, 'Tbd%icsdsw', Tbd%icsdsw)
+            ...
+            ! Diag
+            call print_var(mpirank, omprank, blkno, Grid%xlat_d, Grid%xlon_d, 'Diag%srunoff', Diag%srunoff)
+            ...
+            ! Statein
+            call print_var(mpirank, omprank, blkno, Grid%xlat_d, Grid%xlon_d, 'Statein%phii', Statein%phii)
+            ! Stateout
+            call print_var(mpirank, omprank, blkno, Grid%xlat_d, Grid%xlon_d, 'Stateout%gu0', Stateout%gu0)
+            ...
+            ! Coupling
+            call print_var(mpirank, omprank, blkno, Grid%xlat_d, Grid%xlon_d, 'Coupling%nirbmdi', Coupling%nirbmdi)
+            ...
+            ! Grid
+            call print_var(mpirank, omprank, blkno, Grid%xlat_d, Grid%xlon_d, 'Grid%xlon', Grid%xlon)
+            ...
+            end subroutine GFS_diagtoscreen_run
 
-    All output to ``stdout/stderr`` from this routine is prefixed with **'XXX: '** so that it can be easily removed from the log files using "grep -ve 'XXX: ' ..." if needed.
+
+  .. _codeblockends:
+
+            All output to ``stdout/stderr`` from this routine is prefixed with **'XXX: '** so that it can be easily removed from the log files using "grep -ve 'XXX: ' ..." if needed.
 
 
 
