@@ -148,7 +148,7 @@ Descriptions of the CCPP-compliant debugging schemes for the UFS
 
 
 -----------------------------------------------
-How to use these debugging schemes for the UFS?
+How to use these debugging schemes for the UFS
 -----------------------------------------------
 Below is an example for an SDF that prints debugging output from the standard/persistent GFS types and the interstitial type in two places in the radiation group before aborting. Remember that the model loops through each group N block number of times (with potentially M different threads), hence the need to configure ``GFS_abort_run`` correctly (in the above example, it aborts for the last block, which is either the last loop or in the last group of the threaded loop).
 
@@ -228,4 +228,3 @@ At this point, three options exist: (1) full output of every element of each arr
         #else
         #define PRINT_CHKSUM
         #endif
-
