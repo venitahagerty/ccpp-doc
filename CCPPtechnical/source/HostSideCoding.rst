@@ -45,6 +45,7 @@ and :ref:`Listing 6.2 <example_vardefs_meta>` for examples of host model metadat
 * The ``standard_name`` must match that of the target variable in the physics scheme.
 * The type, kind, shape and size of the variable (as defined in the host model Fortran code) must match that of the target variable.
 * The attributes ``units``, ``rank``, ``type`` and ``kind`` in the host model metadata must match those in the physics scheme metadata.
+* The attribute ``active`` is used to allocate variables under certain conditions.  It must be written as a Fortran expression that equates to ``.true.`` or ``.false.``, using the CCPP standard names of variables. ``active`` attributes for all variables are ``.true.`` by default. See :numref:`Section %s <ActiveAttribute>` for details.
 * The attributes ``optional`` and ``intent`` must be set to ``F`` and ``none``, respectively.
 * The ``local_name`` of the variable must be set to the name the host model cap uses to refer to the variable.
 * The metadata section that exposes a DDT to the CCPP (as opposed to the section that describes the components of a DDT) must be in the same module where the memory for the DDT is allocated. If the DDT is a module variable, then it must be exposed via the module’s metadata section, which must have the same name as the module.
@@ -159,8 +160,70 @@ and :ref:`Listing 6.2 <example_vardefs_meta>` for examples of host model metadat
      dimensions = (horizontal_dimension,vertical_dimension)
      type = real
      kind = r15
+   [nwfa2d]
+     standard_name = tendency_of_water_friendly_aerosols_at_surface
+     long_name = instantaneous water-friendly sfc aerosol source
+     units = kg-1 s-1
+     dimensions = (horizontal_dimension)
+     type = real
+     kind = kind_phys
+     active = (flag_for_microphysics_scheme == flag_for_thompson_microphysics_scheme .and. flag_for_aerosol_physics)
+   [qgrs(:,:,index_for_water_friendly_aerosols)]
+     standard_name = water_friendly_aerosol_number_concentration
+     long_name = number concentration of water-friendly aerosols
+     units = kg-1
+     dimensions = (horizontal_dimension,vertical_dimension)
+     active = (index_for_water_friendly_aerosols > 0)
+     type = real
+     kind = kind_phys
 
 *Listing 6.2: Example host model metadata file (* ``.meta`` *).*
+
+.. _ActiveAttribute:
+
+,,,,,,,,,,,,,,,,
+Active Attribute
+,,,,,,,,,,,,,,,,
+
+The CCPP must be able to detect when arrays need to be allocated, and when certain tracers must be
+present in order to perform operations or tests in the auto-generated caps (e.g. unit conversions,
+blocked data structure copies, etc.). This is accomplished with the attribute ``active`` in the
+metadata for the host model variables (``GFS_typedefs.meta`` for the UFS Atmosphere or the SCM).
+
+Several arrays in the host model (e.g., ``GFS_typedefs.F90`` in the UFS Atmosphere or the SCM) are
+allocated based on certain conditions, for example:
+
+.. code-block:: fortran
+
+    !--- needed for Thompson's aerosol option
+    if(Model%imp_physics == Model%imp_physics_thompson .and. Model%ltaerosol) then
+      allocate (Coupling%nwfa2d (IM))
+      allocate (Coupling%nifa2d (IM))
+      Coupling%nwfa2d   = clear_val
+      Coupling%nifa2d   = clear_val
+    endif
+
+Other examples are the elements in the tracer array, where their presence depends on the corresponding
+index being larger than zero. For example:
+
+.. code-block:: fortran
+
+    integer              :: ntwa            !< tracer index for water friendly aerosol
+    ...
+    Model%ntwa             = get_tracer_index(Model%tracer_names, 'liq_aero', ...)      
+    ...
+    if (Model%ntwa>0) then
+      ! do something with qgrs(:,:,Model%ntwa)
+    end if
+
+The ``active`` attribute is a conditional statement that, if true, will allow the corresponding variable
+to be allocated.  It must be written as a Fortran expression that equates to ``.true.`` or ``.false.``,
+using the CCPP standard names of variables. Active attributes for all variables are ``.true.`` by default. 
+
+If a developer adds a new variable that is only allocated under certain conditions, or changes the conditions
+under which an existing variable is allocated, a corresponding change must be made in the metadata for the
+host model variables (``GFS_typedefs.meta`` for the UFS Atmosphere or the SCM). See variables ``nwfa2d``
+and ``qgrs`` in :ref:`Listing 6.2 <example_vardefs_meta>` for an example.
 
 ========================================================
 CCPP Variables in the SCM and UFS Atmosphere Host Models
