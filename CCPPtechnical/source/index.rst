@@ -18,6 +18,5 @@ CCPP Technical Documentation
    HostSideCoding
    CodeManagement
    CCPPPreBuild
-   AddingNewSchemes
-   ParamSpecificOutput
+
 
